@@ -32,7 +32,6 @@ class Markdown extends Component {
         const rules = SimpleMarkdown.defaultRules;
         this.parser = SimpleMarkdown.parserFor(rules);
         this.reactOutput = SimpleMarkdown.reactFor(SimpleMarkdown.ruleOutput(rules, 'react'));
-
         const blockSource = this.props.children + '\n\n';
         const parseTree = this.parser(blockSource, {inline: this.props.parseInline});
         const outputResult = this.reactOutput(parseTree);
@@ -159,7 +158,7 @@ class Markdown extends Component {
         if (this.props.debug) {
             let indent = key ? Array(key.length).join('=') + '> ' : '=> ';
 
-            console.log('\n' + indent + 'Rendering node with key '+key);
+            console.log('\n' + indent + 'Rendering node with key '+ key);
             console.log(indent + 'Type: ' + (node.type ? node.type : 'plaintext'));
             console.log(indent + 'Props: ' + (node.props ? JSON.stringify(node.props, null, 4): node));
         }
@@ -313,5 +312,6 @@ const DEFAULT_STYLES = {
         marginRight: 10
     }
 };
+
 
 export default Markdown;

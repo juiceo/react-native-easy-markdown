@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Simple & customizable React Native component to render Github-flavoured markdown using minimal native components.",
   "main": "index.js",
+  "repository": "https://github.com/lappalj4/react-native-easy-markdown",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

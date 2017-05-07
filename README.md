@@ -150,12 +150,13 @@ As this library is updated, the default styles might change (unlikely, but possi
 This project is stable and reliable with the current feature set, and I did not want to add support for some of the more obscure markdown components now as they are not needed for my personal use cases and I did not want to add something that is not 100% working. I am more than happy to accept pull requests for any components that you would like to see included in this library. Please make sure your code passes basic linting before submitting one, though!
 
 Possible features to implement:
- [ ] Tables
- [ ] Blockquotes
- [ ] Nested lists
- [ ] Horizontal lines
- [ ] Task lists (like this one)
- [ ] (Your feature here)
+ 
+ - [ ] Tables
+ - [ ] Blockquotes
+ - [ ] Nested lists
+ - [ ] Horizontal lines
+ - [ ] Task lists (like this one)
+ - [ ] (Your feature here)
 
  As mentioned, the code is quite simple to work on, and it won't take you long to figure out how to add support for various types of markdown. If you are looking to get into contributing to React Native, maybe this is a good first project for you? ;)
 

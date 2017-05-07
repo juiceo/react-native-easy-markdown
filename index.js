@@ -311,9 +311,6 @@ const DEFAULT_STYLES = {
     },
     listItemNumber: {
         marginRight: 10
-    },
-    listItemText: {
-
     }
 };
 

@@ -18,7 +18,7 @@ render() {
   return(
     <Markdown>
        # Why is markdown cool?
-       * because it let's us do simple formatting **easily**
+       * because it lets us do simple formatting **easily**
        * _without_ the need for complex CMS data structures
        * and you can outsource ~~your~~ work to the content creators!
 
@@ -31,6 +31,7 @@ render() {
 
 # Customization
 The ```<Markdown/>``` component takes the following props:
+
 Prop name  | Description | Type | Default value
 ------------- | ------------- | --------- | ---------
 useDefaultStyles  | Use default styles (see below) | boolean | true
@@ -143,7 +144,7 @@ And the default styles as of writing this are:
         marginRight: 10
     }
 ```
-As this library is updated, the default styles might change (unlikely, but possible) and forget to update this, so feel free to check out the source code for the absolute truth.
+As this library is updated, the default styles might change (unlikely, but possible) and I might forget to update this, so feel free to check out the source code for the absolute truth.
 
 # Contributing and roadmap
 This project is stable and reliable with the current feature set, and I did not want to add support for some of the more obscure markdown components now as they are not needed for my personal use cases and I did not want to add something that is not 100% working. I am more than happy to accept pull requests for any components that you would like to see included in this library. Please make sure your code passes basic linting before submitting one, though!

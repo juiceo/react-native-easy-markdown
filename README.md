@@ -34,31 +34,31 @@ The ```<Markdown/>``` component takes the following props:
 
 Prop name  | Description | Type | Default value
 ------------- | ------------- | --------- | ---------
-useDefaultStyles  | Use default styles (see below) | boolean | true
-markdownStyles | Override the default styles for rendered components with your own (see style guide below) | object | {}
-parseInline  | Parse markdown inline. Probably not needed for most ([see here](https://github.com/Khan/simple-markdown#simplemarkdowndefaultinlineparsesource)) | boolean | false
-debug | Log the node tree as it renders to see if your problems are caused by the supplied markdown or the component (I hope not!) | boolean | false
-style | Style prop for the ```<Markdown/>``` container | object | {}
+`useDefaultStyles`  | Use default styles (see below) | boolean | true
+`markdownStyles` | Override the default styles for rendered components with your own (see style guide below) | object | {}
+`parseInline`  | Parse markdown inline. Probably not needed for most ([see here](https://github.com/Khan/simple-markdown#simplemarkdowndefaultinlineparsesource)) | boolean | false
+`debug` | Log the node tree as it renders to see if your problems are caused by the supplied markdown or the component (I hope not!) | boolean | false
+`style` | Style prop for the ```<Markdown/>``` container | object | {}
 
 # Styling
 You can supply the component with your own ```markdownStyles``` prop to override the defaults. Available styles are:
 
 Style | RN component | HTML equivalent | Description
 ------|--------------|-----------------|-------------
-h1-h6 | <Text/>      | <h1/>           | # Heading 1-6, applies to all headings of the given level
-text  | <Text/>      | <span/>         | Applies to all text components, (links, headings, etc.)
-strong | <Text/>    | <b/>            | **Strong** (or "bold") text only
-em     | <Text/>    | <i/>            | *italic* text only
-del    | <Text/>    | <dunno/>        | ~~strikethrough~~ text only
-linkWrapper | <TouchableOpacity/> | <div/>  | Touchable wrapper around link elements
-link | <Text/> | <a/> | Link text
-list | <View /> | <div/> | Wrapper around lists
-listItem | <View/> | <div/> | Wrapper around list items
-listItemContent | <Text/> | <span/> | List item content, excluding the bullet/number
-listItemBullet | <View/> | <div/> | Bullet shown on unordered lists
-listItemNumber | <Text/> | <span/> | Number shown on ordered lists
-block | <View/> | <div/> | Paragraph wrapper, shows up around sections of content (depending on how your markdown is formatted)
-image | <Image/> | <img/> | Image component
+h1-h6 | `<Text/>`      | `<h1/>`           | # Heading 1-6, applies to all headings of the given level
+text  | `<Text/>`      | `<span/>`         | Applies to all text components, (links, headings, etc.)
+strong | `<Text/>`    | `<b/>`            | **Strong** (or "bold") text only
+em     | `<Text/>`    | `<i/>`            | *italic* text only
+del    | `<Text/>`    | `<dunno/>`        | ~~strikethrough~~ text only
+linkWrapper | `<TouchableOpacity/>` | `<div/>`  | Touchable wrapper around link elements
+link | `<Text/>` | `<a/>`| Link text
+list | `<View />` | `<div/>` | Wrapper around lists
+listItem | `<View/>` | `<div/>` | Wrapper around list items
+listItemContent | `<Text/>` | `<span/>` | List item content, excluding the bullet/number
+listItemBullet | `<View/>` | `<div/>` | Bullet shown on unordered lists
+listItemNumber | `<Text/>` | `<span/>` | Number shown on ordered lists
+block | `<View/>` | `<div/>` | Paragraph wrapper, shows up around sections of content (depending on how your markdown is formatted)
+image | `<Image/>` | `<img/>` | Image component
 
 And the default styles as of writing this are:
 ```

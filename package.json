@@ -1,0 +1,24 @@
+{
+  "name": "react-native-easy-markdown",
+  "version": "1.0.0",
+  "description": "Easy-to-use tool for rendering React Native components from Github-flavoured markdown, with customizable styles.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react-native",
+    "native",
+    "markdown",
+    "parse",
+    "parser"
+  ],
+  "author": "Juuso Lappalainen",
+  "license": "MIT",
+  "dependencies": {
+    "simple-markdown": "^0.1.1"
+  },
+  "peerDependencies": {
+    "react-native": "*"
+  }
+}

@@ -49,9 +49,9 @@ h1-h6 | `<Text/>`      | `<h1/>`           | # Heading 1-6, applies to al
 text  | `<Text/>`      | `<span/>`         | Applies to all text components, (links, headings, etc.)
 strong | `<Text/>`    | `<b/>`            | **Strong** (or "bold") text only
 em     | `<Text/>`    | `<i/>`            | *italic* text only
-del    | `<Text/>`    | `<dunno/>`        | ~~strikethrough~~ text only
-linkWrapper | `<TouchableOpacity/>` | `<div/>`  | Touchable wrapper around link elements
-link | `<Text/>` | `<a/>`| Link text
+del    | `<Text/>`    | `<span/>`        | ~~strikethrough~~ text only
+linkWrapper | `<TouchableOpacity/>` | `<a/>`  | Touchable wrapper around link elements
+link | `<Text/>` | `<span/>`| Link text
 list | `<View />` | `<div/>` | Wrapper around lists
 listItem | `<View/>` | `<div/>` | Wrapper around list items
 listItemContent | `<Text/>` | `<span/>` | List item content, excluding the bullet/number
@@ -150,7 +150,7 @@ As this library is updated, the default styles might change (unlikely, but possi
 This project is stable and reliable with the current feature set, and I did not want to add support for some of the more obscure markdown components now as they are not needed for my personal use cases and I did not want to add something that is not 100% working. I am more than happy to accept pull requests for any components that you would like to see included in this library. Please make sure your code passes basic linting before submitting one, though!
 
 Possible features to implement:
- 
+
  - [ ] Tables
  - [ ] Blockquotes
  - [ ] Nested lists

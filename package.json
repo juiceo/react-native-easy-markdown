@@ -17,6 +17,7 @@
   "author": "Juuso Lappalainen",
   "license": "MIT",
   "dependencies": {
+    "react-native-youtube": "^1.0.0-alpha.3",
     "simple-markdown": "^0.1.1"
   },
   "peerDependencies": {

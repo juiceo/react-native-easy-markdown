@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import SimpleMarkdown from 'simple-markdown';
+import Youtube from 'react-native-youtube';
 
 class Markdown extends Component {
     static propTypes = {
@@ -16,14 +17,18 @@ class Markdown extends Component {
         useDefaultStyles: React.PropTypes.bool,
         parseInline: React.PropTypes.bool,
         markdownStyles: React.PropTypes.object,
-        style: React.PropTypes.any
+        style: React.PropTypes.any,
+        youtubePatterns: React.PropTypes.string,
+        youtubeApiKey: React.PropTypes.string
     }
 
     static defaultProps = {
         debug: false,
         useDefaultStyles: true,
         parseInline: false,
-        markdownStyles: {}
+        markdownStyles: {},
+        youtubePatterns: ['http://youtube', 'www.youtube', 'http://youtube'],
+        youtubeApiKey: ''
     }
 
     constructor(props) {
@@ -82,10 +87,43 @@ class Markdown extends Component {
     renderImage(node, key) {
 
         const {styles} = this.state;
+        const {src} = node.props;
+        const {youtubePatterns} = this.props;
 
-        return(
-            <Image key={key} source={{uri: node.props.src}} style={styles.image}/>
-        );
+        let isVideo = false;
+
+        for (pattern in youtubePatterns) {
+            if (src.includes(pattern)) {
+                isVideo = true;
+                break;
+            }
+        }
+
+        if (isVideo) {
+            return(
+                <YouTube
+                    ref={(component) => {
+                        this._youTubePlayer = component;
+                    }}
+                    videoId={src.split('watch?v=')[1]}
+                    play={false}
+                    fullscreen={false}
+                    loop={false}
+                    apiKey={this.props.youtubeApiKey}
+                    onReady={e => this.setState({ isReady: true })}
+                    onChangeState={e => this.setState({ status: e.state })}
+                    onChangeQuality={e => this.setState({ quality: e.quality })}
+                    onError={e => this.setState({ error: e.error })}
+                    onProgress={e => this.setState({ currentTime: e.currentTime, duration: e.duration })}
+
+                    style={styles.video}
+                />
+            );
+        } else {
+            return(
+                <Image key={key} source={{uri: node.props.src}} style={styles.image}/>
+            );
+        }
     }
 
     renderList(node, key, ordered) {
@@ -234,6 +272,10 @@ const DEFAULT_STYLES = {
         marginBottom: 10
     },
     image: {
+        width: 200,
+        height: 200
+    },
+    video: {
         width: 200,
         height: 200
     },

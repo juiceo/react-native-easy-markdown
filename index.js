@@ -58,7 +58,7 @@ class Markdown extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        this.props.children !== nextProps.children || this.props.markdownStyles !== nextProps.markdownStyles;
+        return this.props.children !== nextProps.children || this.props.markdownStyles !== nextProps.markdownStyles;
     }
 
     concatStyles(extras, newStyle) {

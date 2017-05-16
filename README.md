@@ -146,11 +146,17 @@ And the default styles as of writing this are:
 ```
 As this library is updated, the default styles might change (unlikely, but possible) and I might forget to update this, so feel free to check out the source code for the absolute truth.
 
+# Changelog
+
+**1.0.3**
+* Fixed missing return statement in componentShouldUpdate that was throwing a warning
+
 # Contributing and roadmap
 This project is stable and reliable with the current feature set, and I did not want to add support for some of the more obscure markdown components now as they are not needed for my personal use cases and I did not want to add something that is not 100% working. I am more than happy to accept pull requests for any components that you would like to see included in this library. Please make sure your code passes basic linting before submitting one, though!
 
 Possible features to implement:
 
+ - [ ] Support for videos (=> youtube/vimeo links in images), will be implemented soon.
  - [ ] Tables
  - [ ] Blockquotes
  - [ ] Nested lists

@@ -65,6 +65,10 @@ And the default styles as of writing this are:
     block: {
         marginBottom: 10
     },
+    textBlock: {
+        flexWrap: 'wrap',
+        marginBottom: 10
+    },
     image: {
         width: 200,
         height: 200
@@ -148,6 +152,9 @@ As this library is updated, the default styles might change (unlikely, but possi
 
 # Changelog
 
+**1.0.4**
+* Improved layout for text-only sections. Now wrapped in a Text component instead of a View, which makes sure nested text wraps properly.
+
 **1.0.3**
 * Fixed missing return statement in componentShouldUpdate that was throwing a warning
 
@@ -156,7 +163,6 @@ This project is stable and reliable with the current feature set, and I did not 
 
 Possible features to implement:
 
- - [ ] Support for videos (=> youtube/vimeo links in images), will be implemented soon.
  - [ ] Tables
  - [ ] Blockquotes
  - [ ] Nested lists

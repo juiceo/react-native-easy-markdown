@@ -152,6 +152,9 @@ As this library is updated, the default styles might change (unlikely, but possi
 
 # Changelog
 
+**1.0.5**
+* Removed video support, which was not working correctly. 
+
 **1.0.4**
 * Improved layout for text-only sections. Now wrapped in a Text component instead of a View, which makes sure nested text wraps properly.
 

@@ -62,6 +62,15 @@ class Markdown extends Component {
         return this.props.children !== nextProps.children || this.props.markdownStyles !== nextProps.markdownStyles;
     }
 
+    logDebug(nodeTree) {
+        _.each(nodeTree, (node) => {
+            console.log(node.key + ' - ' + node.type.displayName, node);
+            if (Array.isArray(node.props.children)) {
+                this.logDebug(node.props.children);
+            }
+        });
+    }
+
     concatStyles(extras, newStyle) {
         let newExtras;
         if (extras) {
@@ -148,10 +157,10 @@ class Markdown extends Component {
         const {styles} = this.state;
 
         const nodes = this.renderNodes(node.props.children, key, extras);
-
         const children = nodes.map((node) => node.type.displayName);
+        const uniq = _.uniq(children);
 
-        if (_.uniq(children)[0] === 'Text') {
+        if (uniq.length === 1 && uniq[0] === 'Text') {
             return(
                 <Text key={key} style={styles.textBlock}>
                     {nodes}
@@ -168,15 +177,11 @@ class Markdown extends Component {
 
     renderNode(node, key, index, extras) {
 
-        if (this.props.debug) {
-            let indent = key ? Array(key.length).join('=') + '> ' : '=> ';
-
-            console.log('\n' + indent + 'Rendering node with key '+ key);
-            console.log(indent + 'Type: ' + (node.type ? node.type : 'plaintext'));
-            console.log(indent + 'Props: ' + (node.props ? JSON.stringify(node.props, null, 4): node));
-        }
-
         const {styles} = this.state;
+
+        if (key === '2') {
+            console.log("Node with key 2", node);
+        }
 
         switch(node.type) {
             case 'h1': {
@@ -228,15 +233,21 @@ class Markdown extends Component {
 
     renderNodes(nodes, key, extras) {
         return nodes.map((node, index) => {
-            const newKey = key ? key + '_' + index : index;
+            const newKey = key ? key + '_' + index : index + '';
             return this.renderNode(node, newKey, index, extras);
         });
     }
 
     render() {
+        let content = this.renderNodes(this.state.syntaxTree, null, null);
+
+        if (this.props.debug) {
+            this.logDebug(content);
+        }
+
         return(
             <View style={this.props.style}>
-                {this.renderNodes(this.state.syntaxTree, null, null)}
+                {content}
             </View>
         );
     }
@@ -244,7 +255,9 @@ class Markdown extends Component {
 
 const DEFAULT_STYLES = {
     block: {
-        marginBottom: 10
+        marginBottom: 10,
+        flexWrap: 'wrap',
+        flexDirection: 'row'
     },
     image: {
         width: 200,
@@ -281,10 +294,11 @@ const DEFAULT_STYLES = {
         marginBottom: 6
     },
     text: {
-        flexWrap: 'wrap'
+        alignSelf: 'flex-start'
     },
     textBlock: {
         flexWrap: 'wrap',
+        flexDirection: 'row',
         marginBottom: 10
     },
     strong: {
@@ -297,11 +311,11 @@ const DEFAULT_STYLES = {
         textDecorationLine: 'line-through',
     },
     linkWrapper: {
-        justifyContent: 'flex-start',
-        flexDirection: 'row'
+        alignSelf: 'flex-start'
     },
     link: {
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        alignSelf: 'flex-start'
     },
     list: {
         marginBottom: 20

@@ -62,12 +62,11 @@ image | `<Image/>` | `<img/>` | Image component
 
 And the default styles as of writing this are:
 ```
+const DEFAULT_STYLES = {
     block: {
-        marginBottom: 10
-    },
-    textBlock: {
+        marginBottom: 10,
         flexWrap: 'wrap',
-        marginBottom: 10
+        flexDirection: 'row'
     },
     image: {
         width: 200,
@@ -104,7 +103,12 @@ And the default styles as of writing this are:
         marginBottom: 6
     },
     text: {
-
+        alignSelf: 'flex-start'
+    },
+    textBlock: {
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        marginBottom: 10
     },
     strong: {
         fontWeight: 'bold',
@@ -116,11 +120,11 @@ And the default styles as of writing this are:
         textDecorationLine: 'line-through',
     },
     linkWrapper: {
-        justifyContent: 'flex-start',
-        flexDirection: 'row'
+        alignSelf: 'flex-start'
     },
     link: {
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        alignSelf: 'flex-start'
     },
     list: {
         marginBottom: 20
@@ -147,13 +151,19 @@ And the default styles as of writing this are:
     listItemNumber: {
         marginRight: 10
     }
+};
 ```
 As this library is updated, the default styles might change (unlikely, but possible) and I might forget to update this, so feel free to check out the source code for the absolute truth.
 
 # Changelog
 
+**1.1.0**
+* Significant improvements to text layouting. Links are now displayed inline by default.
+* Fixed issue: 'Nesting <View> withing <Text> is not supported on Android'
+* Updated default styles.
+
 **1.0.5**
-* Removed video support, which was not working correctly. 
+* Removed video support, which was not working correctly.
 
 **1.0.4**
 * Improved layout for text-only sections. Now wrapped in a Text component instead of a View, which makes sure nested text wraps properly.

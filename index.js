@@ -179,10 +179,6 @@ class Markdown extends Component {
 
         const {styles} = this.state;
 
-        if (key === '2') {
-            console.log("Node with key 2", node);
-        }
-
         switch(node.type) {
             case 'h1': {
                 let newExtras = this.concatStyles(extras, styles.h1);

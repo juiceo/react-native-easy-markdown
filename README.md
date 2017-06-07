@@ -159,7 +159,7 @@ As this library is updated, the default styles might change (unlikely, but possi
 
 **1.1.0**
 * Significant improvements to text layouting. Links are now displayed inline by default.
-* Fixed issue: 'Nesting <View> withing <Text> is not supported on Android'
+* Fixed issue: 'Nesting `<View>` within `<Text>` is not supported on Android'
 * Updated default styles.
 
 **1.0.5**

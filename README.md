@@ -7,67 +7,100 @@ The project is stable and the current feature-set should be enough for most use 
 
 * [Installation](#installation)
 * [Usage](#usage)
-* [Customization](#customization)
+* [Props](#props)
 * [Styling](#styling)
+* [Caveats](#caveats)
 * [Changelog](#changelog)
 * [Contributing](#contributing-and-roadmap)
 
 # Installation
+
 ```npm install --save react-native-easy-markdown```
 
 # Usage
-Import the component:
-```import Markdown from 'react-native-easy-markdown```
-
-And in your render method:
 ````
+import Markdown from 'react-native-easy-markdown
+
+....
+
 render() {
   return(
     <Markdown>
        # Why is markdown cool?
+
        * because it lets us do simple formatting **easily**
        * _without_ the need for complex CMS data structures
        * and you can outsource ~~your~~ work to the content creators!
 
-       [We can add images!](http://placehold.it/300x300)
-       [Or link to places](http://google.com)
+       ![We can add images!](http://placehold.it/300x300)
+       [Or link to places](http://foobar.com)
     </Markdown>
   );
 }
 ````
 
-# Customization
-The ```<Markdown/>``` component takes the following props:
+# Props
 
 Prop name  | Description | Type | Default value
 ------------- | ------------- | --------- | ---------
-`useDefaultStyles`  | Use default styles (see below) | boolean | true
-`markdownStyles` | Override the default styles for rendered components with your own (see style guide below) | object | {}
-`parseInline`  | Parse markdown inline. Probably not needed for most ([see here](https://github.com/Khan/simple-markdown#simplemarkdowndefaultinlineparsesource)) | boolean | false
-`debug` | Log the node tree as it renders to see if your problems are caused by the supplied markdown or the component (I hope not!) | boolean | false
-`style` | Style prop for the ```<Markdown/>``` container | object | {}
+`useDefaultStyles`  | Whether to use default styles (see below) | boolean | true
+`markdownStyles` | Override the default styles with your own (see style guide below) | object | {}
+`parseInline`  | Parse markdown inline, which is useful for simple markdown snippets intended to be displayed on a single line. ([see here for details](https://github.com/Khan/simple-markdown#simplemarkdowndefaultinlineparsesource)) | boolean | false
+`debug` | Output logs that show the component tree that is being rendered based on the supplied markdown. | boolean | false
+`style` | Style for the ```<Markdown/>``` component | object | {}
+`renderImage`| Custom renderer for images | function(src, alt, title) | none
+`renderLink` | Custom renderer for links | function(href, title, children) | none
+`renderListBullet` | Custom rendered for list bullets | function(ordered, index) | none
+
+If you need more control over how some of the components are rendered, you may provide the custom renderers outlined above like so:
+
+```
+renderImage(src, alt, title) {
+    return(
+        <MyImageComponent source={{uri: src}}/>
+    );
+}
+
+renderLink(href, title, children) {
+    return(
+        <MyTouchableThing onPress={() => console.log("Opening link: " + href)}>
+            {children}
+        </MyTouchableThing>
+    );
+}
+
+renderListBullet(ordered, index) {
+    return(
+        <View style={{width: 20, height: 20, backgroundColor: 'red}}/>
+    );
+}
+```
+
+Notice the `children` parameter passed to `renderLink`, which contains whatever children would otherwise be rendered within the link. In the default implementation, those children will be rendered within a `<TouchableOpacity/>` but this gives you the possibility to provide your own touchable component.
 
 # Styling
-You can supply the component with your own ```markdownStyles``` prop to override the defaults. Available styles are:
+You can supply the component with your own ```markdownStyles``` prop to override the defaults. Note that styles will be overriden only for the supplied properties, and other properties will use the default styles if ```useDefaultStyles``` is true. Styles are applied to elements in order of specificity, so for example a **strong** text node would have both `text` and `strong` styles, in that order. Available styles are:
 
-Style | RN component | HTML equivalent | Description
-------|--------------|-----------------|-------------
-h1-h6 | `<Text/>`      | `<h1/>`           | # Heading 1-6, applies to all headings of the given level
-text  | `<Text/>`      | `<span/>`         | Applies to all text components, (links, headings, etc.)
-strong | `<Text/>`    | `<b/>`            | **Strong** (or "bold") text only
-em     | `<Text/>`    | `<i/>`            | *italic* text only
-del    | `<Text/>`    | `<span/>`        | ~~strikethrough~~ text only
-linkWrapper | `<TouchableOpacity/>` | `<a/>`  | Touchable wrapper around link elements
-link | `<Text/>` | `<span/>`| Link text
-list | `<View />` | `<div/>` | Wrapper around lists
-listItem | `<View/>` | `<div/>` | Wrapper around list items
-listItemContent | `<Text/>` | `<span/>` | List item content, excluding the bullet/number
-listItemBullet | `<View/>` | `<div/>` | Bullet shown on unordered lists
-listItemNumber | `<Text/>` | `<span/>` | Number shown on ordered lists
-block | `<View/>` | `<div/>` | Paragraph wrapper, shows up around sections of content (depending on how your markdown is formatted)
-image | `<Image/>` | `<img/>` | Image component
+Style | RN component | Description
+------|--------------|-------------
+h1-h6  | `<Text/>`      | # Heading 1-6
+text   | `<Text/>`      | Base styles for all text components
+strong | `<Text/>`      | Additional styles for **Strong** text only
+em     | `<Text/>`      | Additional styles for *italic* text only
+del    | `<Text/>`      | Additional styles for ~~strikethrough~~ text only
+linkWrapper | `<TouchableOpacity/>` | Touchable wrapper for links
+link | `<Text/>` | Additional styles for text within links
+list | `<View />` | Wrapper around lists
+listItem | `<View/>` | Wrapper around list items
+listItemContent | `<View/>` | List item content wrapper, excluding the bullet/number
+listItemTextContent | `<Text/>`| Additional styles applied to list item content wrappers where children are only text nodes.
+listItemBullet | `<View/>` | Bullet shown on unordered lists
+listItemNumber | `<Text/>` | Number shown on ordered lists
+block | `<View/>` | Wrapper around sections of content
+textBlock | `<Text/>` | Additional styles applied to blocks where children are only text nodes.
+image | `<Image/>` | Image component
 
-And the default styles as of writing this are:
+And the default styles are:
 ```
 const DEFAULT_STYLES = {
     block: {
@@ -143,6 +176,12 @@ const DEFAULT_STYLES = {
         marginVertical: 5,
     },
     listItemContent: {
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap'
+    },
+    listItemTextContent: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
@@ -162,7 +201,18 @@ const DEFAULT_STYLES = {
 ```
 As this library is updated, the default styles might change (unlikely, but possible) and I might forget to update this, so feel free to check out the source code for the absolute truth.
 
+
+# Caveats
+
+* Complex structures within list items, such as nested lists, should technically work but may yield unexpected results.
+
 # Changelog
+
+**1.1.1**
+* You can now supply custom renderers for images, links and list bullets as props.
+* Improved styling options and layouting.
+* Replace lodash dependency with vanilla methods
+* Component now updates properly if markdownStyles are changed, which makes previewing styling with hot reloading possible.
 
 **1.1.0**
 * Significant improvements to text layouting. Links are now displayed inline by default.
@@ -185,12 +235,9 @@ Possible features to implement:
 
  - [ ] Tables
  - [ ] Blockquotes
- - [ ] Nested lists
  - [ ] Horizontal lines
  - [ ] Task lists (like this one)
  - [ ] (Your feature here)
-
- As mentioned, the code is quite simple to work on, and it won't take you long to figure out how to add support for various types of markdown. If you are looking to get into contributing to React Native, maybe this is a good first project for you? ;)
 
  # License (MIT)
 

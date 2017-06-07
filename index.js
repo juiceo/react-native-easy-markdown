@@ -9,15 +9,17 @@ import {
 } from 'react-native';
 
 import SimpleMarkdown from 'simple-markdown';
-import _ from 'lodash';
 
 class Markdown extends Component {
     static propTypes = {
         debug: React.PropTypes.bool,
-        useDefaultStyles: React.PropTypes.bool,
+        style: React.PropTypes.any,
         parseInline: React.PropTypes.bool,
         markdownStyles: React.PropTypes.object,
-        style: React.PropTypes.any,
+        useDefaultStyles: React.PropTypes.bool,
+        renderImage: React.PropTypes.func,
+        renderLink: React.PropTypes.func,
+        renderListBullet: React.PropTypes.func,
     }
 
     static defaultProps = {
@@ -47,14 +49,25 @@ class Markdown extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+
+        let newState = {};
+
         if (nextProps.children !== this.props.children) {
             const blockSource = nextProps.children + '\n\n';
             const parseTree = this.parser(blockSource, {inline: this.props.parseInline});
             const outputResult = this.reactOutput(parseTree);
 
-            this.setState({
-                syntaxTree: outputResult
-            });
+            newState.syntaxTree = outputResult;
+        }
+
+        if (nextProps.markdownStyles !== this.props.markdownStyles) {
+            const defaultStyles = this.props.useDefaultStyles ? DEFAULT_STYLES : {};
+
+            newState.styles = StyleSheet.create(Object.assign(defaultStyles, nextProps.markdownStyles));
+        }
+
+        if (Object.keys(newState).length !== 0) {
+            this.setState(newState);
         }
     }
 
@@ -63,12 +76,13 @@ class Markdown extends Component {
     }
 
     logDebug(nodeTree) {
-        _.each(nodeTree, (node) => {
+        for (let i = 0; i < nodeTree.length; i++) {
+            const node = nodeTree[i];
             console.log(node.key + ' - ' + node.type.displayName, node);
             if (Array.isArray(node.props.children)) {
                 this.logDebug(node.props.children);
             }
-        });
+        }
     }
 
     concatStyles(extras, newStyle) {
@@ -92,6 +106,10 @@ class Markdown extends Component {
     renderImage(node, key) {
         const {styles} = this.state;
 
+        if (this.props.renderImage) {
+            return this.props.renderImage(node.props.src, node.props.alt, node.props.title);
+        }
+
         return(
             <Image key={key} source={{uri: node.props.src}} style={styles.image}/>
         );
@@ -108,18 +126,55 @@ class Markdown extends Component {
         );
     }
 
+    renderListBullet(ordered, index) {
+
+        const {styles} = this.state;
+
+        if (ordered) {
+            return(
+                <Text style={styles.listItemNumber}>{index + '.'}</Text>
+            );
+        }
+
+        return(
+            <View style={styles.listItemBullet}/>
+        );
+    }
+
     renderListItem(node, key, index, extras) {
 
         const {styles} = this.state;
 
-        return(
-            <View style={styles.listItem} key={key}>
-                {extras.ordered ? <Text style={styles.listItemNumber}>{index + '.'}</Text> : <View style={styles.listItemBullet}/>}
-                <Text style={styles.listItemContent}>
-                    {this.renderNodes(node.props.children, key, extras)}
-                </Text>
-            </View>
-        );
+        let children = this.renderNodes(node.props.children, key, extras);
+        const childrenTypes = children.map((node) => node.type.displayName);
+
+        let isTextOnly = true;
+        for (let i = 0; i < childrenTypes.length; i++) {
+            if (childrenTypes[i] !== 'Text') {
+                isTextOnly = false;
+                break;
+            }
+        }
+
+        if (isTextOnly) {
+            return(
+                <View style={styles.listItem} key={key}>
+                    {this.props.renderListBullet ? this.props.renderListBullet(extras.ordered, index) : this.renderListBullet(extras.ordered, index)}
+                    <Text style={[styles.listItemContent, styles.listItemTextContent]}>
+                        {children}
+                    </Text>
+                </View>
+            );
+        } else {
+            return(
+                <View style={styles.listItem} key={key}>
+                    {this.props.renderListBullet ? this.props.renderListBullet(extras.ordered, index) : this.renderListBullet(extras.ordered, index)}
+                    <View style={styles.listItemContent}>
+                        {children}
+                    </View>
+                </View>
+            );
+        }
     }
 
     renderText(node, key, extras) {
@@ -145,10 +200,15 @@ class Markdown extends Component {
 
         const {styles} = this.state;
         let extras = this.concatStyles(null, styles.link);
+        let children = this.renderNodes(node.props.children, key, extras);
+
+        if (this.props.renderLink) {
+            return this.props.renderLink(node.props.href, node.props.title, children);
+        }
 
         return(
             <TouchableOpacity style={styles.linkWrapper} key={key} activeOpacity={0.8} onPress={() => Linking.openURL(node.props.href).catch(() => {})}>
-                {this.renderNodes(node.props.children, key, extras)}
+                {children}
             </TouchableOpacity>
         );
     }
@@ -157,12 +217,19 @@ class Markdown extends Component {
         const {styles} = this.state;
 
         const nodes = this.renderNodes(node.props.children, key, extras);
-        const children = nodes.map((node) => node.type.displayName);
-        const uniq = _.uniq(children);
+        const childrenTypes = nodes.map((node) => node.type.displayName);
 
-        if (uniq.length === 1 && uniq[0] === 'Text') {
+        let isTextOnly = true;
+        for (let i = 0; i < childrenTypes.length; i++) {
+            if (childrenTypes[i] !== 'Text') {
+                isTextOnly = false;
+                break;
+            }
+        }
+
+        if (isTextOnly) {
             return(
-                <Text key={key} style={styles.textBlock}>
+                <Text key={key} style={[styles.block, styles.textBlock]}>
                     {nodes}
                 </Text>
             );
@@ -307,7 +374,7 @@ const DEFAULT_STYLES = {
         textDecorationLine: 'line-through',
     },
     linkWrapper: {
-        alignSelf: 'flex-start'
+        alignSelf: 'flex-start',
     },
     link: {
         textDecorationLine: 'underline',
@@ -323,6 +390,11 @@ const DEFAULT_STYLES = {
         marginVertical: 5,
     },
     listItemContent: {
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+    },
+    listItemTextContent: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',

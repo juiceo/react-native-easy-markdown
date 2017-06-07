@@ -208,11 +208,14 @@ As this library is updated, the default styles might change (unlikely, but possi
 
 # Changelog
 
-**1.1.1**
+**1.1.2**
 * You can now supply custom renderers for images, links and list bullets as props.
 * Improved styling options and layouting.
 * Replace lodash dependency with vanilla methods
 * Component now updates properly if markdownStyles are changed, which makes previewing styling with hot reloading possible.
+
+**1.1.1**
+* Minor bug fixes
 
 **1.1.0**
 * Significant improvements to text layouting. Links are now displayed inline by default.

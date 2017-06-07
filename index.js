@@ -15,7 +15,6 @@ import Utils from './Utils';
 class Markdown extends Component {
     static propTypes = {
         debug: React.PropTypes.bool,
-        style: React.PropTypes.any,
         parseInline: React.PropTypes.bool,
         markdownStyles: React.PropTypes.object,
         useDefaultStyles: React.PropTypes.bool,
@@ -64,7 +63,6 @@ class Markdown extends Component {
 
         if (nextProps.markdownStyles !== this.props.markdownStyles) {
             const defaultStyles = this.props.useDefaultStyles ? defaultStyles : {};
-
             newState.styles = StyleSheet.create(Object.assign(defaultStyles, nextProps.markdownStyles));
         }
 
@@ -75,34 +73,6 @@ class Markdown extends Component {
 
     shouldComponentUpdate(nextProps) {
         return this.props.children !== nextProps.children || this.props.markdownStyles !== nextProps.markdownStyles;
-    }
-
-    logDebug(nodeTree) {
-        for (let i = 0; i < nodeTree.length; i++) {
-            const node = nodeTree[i];
-            console.log(node.key + ' - ' + node.type.displayName, node);
-            if (Array.isArray(node.props.children)) {
-                this.logDebug(node.props.children);
-            }
-        }
-    }
-
-    concatStyles(extras, newStyle) {
-        let newExtras;
-        if (extras) {
-            newExtras = JSON.parse(JSON.stringify(extras));
-
-            if (extras.style) {
-                newExtras.style.push(newStyle);
-            } else {
-                newExtras.style = [newStyle];
-            }
-        } else {
-            newExtras = {
-                style: [newStyle]
-            };
-        }
-        return newExtras;
     }
 
     renderImage(node, key) {
@@ -192,7 +162,7 @@ class Markdown extends Component {
     renderLink(node, key) {
 
         const {styles} = this.state;
-        let extras = this.concatStyles(null, styles.link);
+        let extras = Utils.concatStyles(null, styles.link);
         let children = this.renderNodes(node.props.children, key, extras);
 
         if (this.props.renderLink) {
@@ -200,7 +170,7 @@ class Markdown extends Component {
         }
 
         return(
-            <TouchableOpacity style={styles.linkWrapper} key={key} activeOpacity={0.8} onPress={() => Linking.openURL(node.props.href).catch(() => {})}>
+            <TouchableOpacity style={styles.linkWrapper} key={key} onPress={() => Linking.openURL(node.props.href).catch(() => {})}>
                 {children}
             </TouchableOpacity>
         );
@@ -231,48 +201,21 @@ class Markdown extends Component {
         const {styles} = this.state;
 
         switch(node.type) {
-            case 'h1': {
-                let newExtras = this.concatStyles(extras, styles.h1);
-                return this.renderText(node, key, newExtras);
-            }
-            case 'h2': {
-                let newExtras = this.concatStyles(extras, styles.h2);
-                return this.renderText(node, key, newExtras);
-            }
-            case 'h3': {
-                let newExtras = this.concatStyles(extras, styles.h3);
-                return this.renderText(node, key, newExtras);
-            }
-            case 'h4': {
-                let newExtras = this.concatStyles(extras, styles.h4);
-                return this.renderText(node, key, newExtras);
-            }
-            case 'h5': {
-                let newExtras = this.concatStyles(extras, styles.h5);
-                return this.renderText(node, key, newExtras);
-            }
-            case 'h6': {
-                let newExtras = this.concatStyles(extras, styles.h6);
-                return this.renderText(node, key, newExtras);
-            }
+            case 'h1': return this.renderText(node, key, Utils.concatStyles(extras, styles.h1));
+            case 'h2': return this.renderText(node, key, Utils.concatStyles(extras, styles.h2));
+            case 'h3': return this.renderText(node, key, Utils.concatStyles(extras, styles.h3));
+            case 'h4': return this.renderText(node, key, Utils.concatStyles(extras, styles.h4))
+            case 'h5': return this.renderText(node, key, Utils.concatStyles(extras, styles.h5));
+            case 'h6': return this.renderText(node, key, Utils.concatStyles(extras, styles.h6));
             case 'div': return this.renderBlock(node, key, extras);
             case 'ul': return this.renderList(node, key, false);
             case 'ol': return this.renderList(node, key, true);
             case 'li': return this.renderListItem(node, key, index, extras);
             case 'a': return this.renderLink(node, key);
             case 'img': return this.renderImage(node, key);
-            case 'strong': {
-                let newExtras = this.concatStyles(extras, styles.strong);
-                return this.renderText(node, key, newExtras);
-            }
-            case 'del': {
-                let newExtras = this.concatStyles(extras, styles.del);
-                return this.renderText(node, key, newExtras);
-            }
-            case 'em': {
-                let newExtras = this.concatStyles(extras, styles.em);
-                return this.renderText(node, key, newExtras);
-            }
+            case 'strong': return this.renderText(node, key, Utils.concatStyles(extras, styles.strong));
+            case 'del': return this.renderText(node, key, Utils.concatStyles(extras, styles.del));
+            case 'em': return this.renderText(node, key, Utils.concatStyles(extras, styles.em));
             case undefined: return this.renderText(node, key, extras);
             default: if (this.props.debug) console.log('Node type '+node.type+' is not supported'); return null;
         }
@@ -289,11 +232,11 @@ class Markdown extends Component {
         let content = this.renderNodes(this.state.syntaxTree, null, null);
 
         if (this.props.debug) {
-            this.logDebug(content);
+            Utils.logDebug(content);
         }
 
         return(
-            <View style={this.props.style}>
+            <View {...this.props}>
                 {content}
             </View>
         );

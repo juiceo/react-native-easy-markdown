@@ -5,6 +5,13 @@ For now, it supports the most common use cases, such as headings, lists, links, 
 
 The project is stable and the current feature-set should be enough for most use cases.
 
+* [Installation](#installation)
+* [Usage](#usage)
+* [Customization](#customization)
+* [Styling](#styling)
+* [Changelog](#changelog)
+* [Contributing](#contributing-and-roadmap)
+
 # Installation
 ```npm install --save react-native-easy-markdown```
 

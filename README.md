@@ -79,7 +79,7 @@ renderListBullet(ordered, index) {
 Notice the `children` parameter passed to `renderLink`, which contains whatever children would otherwise be rendered within the link. In the default implementation, those children will be rendered within a `<TouchableOpacity/>` but this gives you the possibility to provide your own touchable component.
 
 # Styling
-You can supply the component with your own ```markdownStyles``` prop to override the defaults. Note that styles will be overriden only for the supplied properties, and other properties will use the default styles if ```useDefaultStyles``` is true. Styles are applied to elements in order of specificity, so for example a **strong** text node would have both `text` and `strong` styles, in that order. Available styles are:
+You can supply the component with your own ```markdownStyles``` prop to override the defaults. Note that styles will be overridden only for the supplied properties, and other properties will use the default styles if ```useDefaultStyles``` is true. Styles are applied to elements in order of specificity, so for example a **strong** text node would have both `text` and `strong` styles, in that order. Available styles are:
 
 Style | RN component | Description
 ------|--------------|-------------
@@ -100,113 +100,16 @@ block | `<View/>` | Wrapper around sections of content
 textBlock | `<Text/>` | Additional styles applied to blocks where children are only text nodes.
 image | `<Image/>` | Image component
 
-And the default styles are:
-```
-const DEFAULT_STYLES = {
-    block: {
-        marginBottom: 10,
-        flexWrap: 'wrap',
-        flexDirection: 'row'
-    },
-    image: {
-        width: 200,
-        height: 200
-    },
-    h1: {
-        fontSize: 30,
-        marginTop: 20,
-        marginBottom: 8
-    },
-    h2: {
-        fontSize: 20,
-        marginTop: 16,
-        marginBottom: 8
-    },
-    h3: {
-        fontSize: 20,
-        marginTop: 16,
-        marginBottom: 8
-    },
-    h4: {
-        fontSize: 20,
-        marginTop: 16,
-        marginBottom: 8
-    },
-    h5: {
-        fontSize: 20,
-        marginTop: 12,
-        marginBottom: 6
-    },
-    h6: {
-        fontSize: 20,
-        marginTop: 12,
-        marginBottom: 6
-    },
-    text: {
-        alignSelf: 'flex-start'
-    },
-    textBlock: {
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        marginBottom: 10
-    },
-    strong: {
-        fontWeight: 'bold',
-    },
-    em: {
-        fontStyle: 'italic',
-    },
-    del: {
-        textDecorationLine: 'line-through',
-    },
-    linkWrapper: {
-        alignSelf: 'flex-start'
-    },
-    link: {
-        textDecorationLine: 'underline',
-        alignSelf: 'flex-start'
-    },
-    list: {
-        marginBottom: 20
-    },
-    listItem: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        marginVertical: 5,
-    },
-    listItemContent: {
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        flexWrap: 'wrap'
-    },
-    listItemTextContent: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        flexWrap: 'wrap'
-    },
-    listItemBullet: {
-        width: 4,
-        height: 4,
-        backgroundColor: '#000000',
-        borderRadius: 2,
-        marginRight: 10
-    },
-    listItemNumber: {
-        marginRight: 10
-    }
-};
-```
-As this library is updated, the default styles might change (unlikely, but possible) and I might forget to update this, so feel free to check out the source code for the absolute truth.
-
+See default styles for reference.
 
 # Caveats
 
 * Complex structures within list items, such as nested lists, should technically work but may yield unexpected results.
 
 # Changelog
+
+**1.1.3**
+* Update default styles and move them to separate file.
 
 **1.1.2**
 * You can now supply custom renderers for images, links and list bullets as props.
@@ -242,7 +145,7 @@ Possible features to implement:
  - [ ] Task lists (like this one)
  - [ ] (Your feature here)
 
- # License (MIT)
+# License (MIT)
 
 Copyright 2017 Juuso Lappalainen
 

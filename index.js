@@ -7,8 +7,9 @@ import {
     Linking,
     StyleSheet
 } from 'react-native';
-
 import SimpleMarkdown from 'simple-markdown';
+
+import defaultStyles from './defaultStyles';
 
 class Markdown extends Component {
     static propTypes = {
@@ -39,7 +40,7 @@ class Markdown extends Component {
         const parseTree = this.parser(blockSource, {inline: this.props.parseInline});
         const outputResult = this.reactOutput(parseTree);
 
-        const defaultStyles = this.props.useDefaultStyles ? DEFAULT_STYLES : {};
+        const defaultStyles = this.props.useDefaultStyles ? defaultStyles : {};
         const styles = StyleSheet.create(Object.assign(defaultStyles, this.props.markdownStyles));
 
         this.state = {
@@ -61,7 +62,7 @@ class Markdown extends Component {
         }
 
         if (nextProps.markdownStyles !== this.props.markdownStyles) {
-            const defaultStyles = this.props.useDefaultStyles ? DEFAULT_STYLES : {};
+            const defaultStyles = this.props.useDefaultStyles ? defaultStyles : {};
 
             newState.styles = StyleSheet.create(Object.assign(defaultStyles, nextProps.markdownStyles));
         }
@@ -315,102 +316,5 @@ class Markdown extends Component {
         );
     }
 }
-
-const DEFAULT_STYLES = {
-    block: {
-        marginBottom: 10,
-        flexWrap: 'wrap',
-        flexDirection: 'row'
-    },
-    image: {
-        width: 200,
-        height: 200
-    },
-    h1: {
-        fontSize: 30,
-        marginTop: 20,
-        marginBottom: 8
-    },
-    h2: {
-        fontSize: 20,
-        marginTop: 16,
-        marginBottom: 8
-    },
-    h3: {
-        fontSize: 20,
-        marginTop: 16,
-        marginBottom: 8
-    },
-    h4: {
-        fontSize: 20,
-        marginTop: 16,
-        marginBottom: 8
-    },
-    h5: {
-        fontSize: 20,
-        marginTop: 12,
-        marginBottom: 6
-    },
-    h6: {
-        fontSize: 20,
-        marginTop: 12,
-        marginBottom: 6
-    },
-    text: {
-        alignSelf: 'flex-start'
-    },
-    textBlock: {
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        marginBottom: 10
-    },
-    strong: {
-        fontWeight: 'bold',
-    },
-    em: {
-        fontStyle: 'italic',
-    },
-    del: {
-        textDecorationLine: 'line-through',
-    },
-    linkWrapper: {
-        alignSelf: 'flex-start',
-    },
-    link: {
-        textDecorationLine: 'underline',
-        alignSelf: 'flex-start'
-    },
-    list: {
-        marginBottom: 20
-    },
-    listItem: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        marginVertical: 5,
-    },
-    listItemContent: {
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-    },
-    listItemTextContent: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        flexWrap: 'wrap'
-    },
-    listItemBullet: {
-        width: 4,
-        height: 4,
-        backgroundColor: '#000000',
-        borderRadius: 2,
-        marginRight: 10
-    },
-    listItemNumber: {
-        marginRight: 10
-    }
-};
-
 
 export default Markdown;

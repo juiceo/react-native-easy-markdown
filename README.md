@@ -1,9 +1,16 @@
 # React Native Easy Markdown
-React Native Easy Markdown is a simple React Native component for rendering [Github-flavoured markdown](https://help.github.com/articles/getting-started-with-writing-and-formatting-on-github/) as native components, and it works equally well on both Android and iOS. Parsing of the markdown is done with the robust [simple-markdown](https://github.com/Khan/simple-markdown). React Native Easy Markdown was created because other available libraries had problems reliably parsing the markdown, as well as their component trees were filled with e.g. nested ```<Text/>``` components, which made styling a nightmare. React Native Easy Markdown uses ```<View/>``` components wherever possible, and allows for easy custom styling.
+React Native Easy Markdown is a simple React Native component for rendering [Markdown](https://help.github.com/articles/getting-started-with-writing-and-formatting-on-github/) as native components, and it works equally well on both Android and iOS. 
 
-For now, it supports the most common use cases, such as headings, lists, links, images and text styling. Any unsupported markdown will not crash your code, as it is simply ignored. If there is a more out-there use case you wish to have supported (such as code blocks etc.), the code is clean and simple to work on, and pull requests are most welcome.
+RNEM was created because other available libraries seemed to be somewhat inconsistent in how the parsed markdown is displayed, and they would render component trees filled with e.g. nested ```<Text/>``` components where that was not necessary, which made styling difficult. RNEM also provides a possibility to supply your own render methods for certain components, such as images and links, so you can style and layout them however you wish.
 
-The project is stable and the current feature-set should be enough for most use cases.
+For now, the following markdown is supported: 
+
+* Text formatting (headings, strong, italics, strikethrough...)
+* Lists (ordered / unordered )
+* Images
+* Links
+
+Any unsupported markdown will not crash your app, as it is simply ignored. If there is a more out-there use case you wish to have supported (such as code blocks etc.), the code is clean and simple to work on, and pull requests are most welcome. The project is stable and the current feature set should be enough for most use cases. 
 
 * [Installation](#installation)
 * [Usage](#usage)
@@ -18,6 +25,7 @@ The project is stable and the current feature-set should be enough for most use 
 ```npm install --save react-native-easy-markdown```
 
 # Usage
+
 ````
 import Markdown from 'react-native-easy-markdown
 

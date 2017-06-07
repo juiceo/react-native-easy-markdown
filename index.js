@@ -10,6 +10,7 @@ import {
 import SimpleMarkdown from 'simple-markdown';
 
 import defaultStyles from './defaultStyles';
+import Utils from './Utils';
 
 class Markdown extends Component {
     static propTypes = {
@@ -147,17 +148,8 @@ class Markdown extends Component {
         const {styles} = this.state;
 
         let children = this.renderNodes(node.props.children, key, extras);
-        const childrenTypes = children.map((node) => node.type.displayName);
 
-        let isTextOnly = true;
-        for (let i = 0; i < childrenTypes.length; i++) {
-            if (childrenTypes[i] !== 'Text') {
-                isTextOnly = false;
-                break;
-            }
-        }
-
-        if (isTextOnly) {
+        if (Utils.isTextOnly(children)) {
             return(
                 <View style={styles.listItem} key={key}>
                     {this.props.renderListBullet ? this.props.renderListBullet(extras.ordered, index) : this.renderListBullet(extras.ordered, index)}
@@ -218,17 +210,8 @@ class Markdown extends Component {
         const {styles} = this.state;
 
         const nodes = this.renderNodes(node.props.children, key, extras);
-        const childrenTypes = nodes.map((node) => node.type.displayName);
 
-        let isTextOnly = true;
-        for (let i = 0; i < childrenTypes.length; i++) {
-            if (childrenTypes[i] !== 'Text') {
-                isTextOnly = false;
-                break;
-            }
-        }
-
-        if (isTextOnly) {
+        if (Utils.isTextOnly(nodes)) {
             return(
                 <Text key={key} style={[styles.block, styles.textBlock]}>
                     {nodes}

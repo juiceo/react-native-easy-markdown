@@ -5,6 +5,13 @@ For now, it supports the most common use cases, such as headings, lists, links, 
 
 The project is stable and the current feature-set should be enough for most use cases.
 
+* [Installation](#installation)
+* [Usage](#usage)
+* [Customization](#customization)
+* [Styling](#styling)
+* [Changelog](#changelog)
+* [Contributing](#contributing-and-roadmap)
+
 # Installation
 ```npm install --save react-native-easy-markdown```
 
@@ -159,7 +166,7 @@ As this library is updated, the default styles might change (unlikely, but possi
 
 **1.1.0**
 * Significant improvements to text layouting. Links are now displayed inline by default.
-* Fixed issue: 'Nesting <View> withing <Text> is not supported on Android'
+* Fixed issue: 'Nesting `<View>` within `<Text>` is not supported on Android'
 * Updated default styles.
 
 **1.0.5**

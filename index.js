@@ -83,7 +83,7 @@ class Markdown extends Component {
         }
 
         return(
-            <View style={styles.imageContainer}>
+            <View style={styles.imageWrapper}>
                 <Image key={key} source={{uri: node.props.src}} style={styles.image}/>
             </View>
         );

@@ -82,7 +82,7 @@ const defaultStyles = {
     listItemNumber: {
         marginRight: 10
     },
-    imageContainer: {
+    imageWrapper: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-start'

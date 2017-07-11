@@ -40,6 +40,8 @@ class Markdown extends Component {
         const parseTree = this.parser(blockSource, {inline: this.props.parseInline});
         const outputResult = this.reactOutput(parseTree);
 
+        console.warn("DEFAULT_STYLES", styles);
+
         const defaultStyles = this.props.useDefaultStyles && styles ? styles : {};
         const _styles = StyleSheet.create(Object.assign(defaultStyles, this.props.markdownStyles));
 

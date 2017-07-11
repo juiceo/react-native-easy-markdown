@@ -6,6 +6,7 @@ class Utils {
                 return false;
             }
         }
+        return true;
     }
 
     static concatStyles(extras, newStyle) {

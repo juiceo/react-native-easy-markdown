@@ -1,10 +1,11 @@
 const defaultStyles = {
     block: {
         marginBottom: 10,
-    },
-    textBlock: {
         flexWrap: 'wrap',
         flexDirection: 'row'
+    },
+    textBlock: {
+
     },
     h1: {
         fontSize: 30,
@@ -91,12 +92,6 @@ const defaultStyles = {
         flex: 1,
         minWidth: 200,
         height: 200
-    },
-    blockQuote: {
-        backgroundColor: '#dddddd',
-        borderLeftWidth: 2,
-        borderLeftColor: 'black',
-        paddingLeft: 10
     }
 };
 

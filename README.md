@@ -111,7 +111,7 @@ textBlock           | `<Text/>`             | Additional styles applied to parag
 imageWrapper        | `<View/>`             | Wrapper around images, for easier layouting
 image               | `<Image/>`            | Image component
 
-See [default styles](https://github.com/lappalj4/react-native-easy-markdown/blob/master/defaultStyles.js) for reference.
+See [default styles](https://github.com/lappalj4/react-native-easy-markdown/blob/master/styles.js) for reference.
 
 # Caveats
 

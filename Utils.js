@@ -1,8 +1,8 @@
-class Utils = {
+class Utils {
 
     static isTextOnly(nodes) {
         for (let i = 0; i < nodes.length; i++) {
-            if (node[i].type.displayName !== 'Text') {
+            if (nodes[i].type.displayName !== 'Text') {
                 return false;
             }
         }
@@ -29,9 +29,12 @@ class Utils = {
     static logDebug(nodeTree) {
         for (let i = 0; i < nodeTree.length; i++) {
             const node = nodeTree[i];
-            console.log(node.key + ' - ' + node.type.displayName, node);
-            if (Array.isArray(node.props.children)) {
-                this.logDebug(node.props.children);
+
+            if (node) {
+                console.log(node.key + ' - ' + node.type.displayName, node);
+                if (Array.isArray(node.props.children)) {
+                    this.logDebug(node.props.children);
+                }
             }
         }
     }

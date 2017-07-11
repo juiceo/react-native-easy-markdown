@@ -10,7 +10,7 @@ The project is stable and the current feature-set should be enough for most use 
 * [Props](#props)
 * [Styling](#styling)
 * [Caveats](#caveats)
-* [Changelog](#changelog)
+* [Change Log](#change-log)
 * [Contributing](#contributing-and-roadmap)
 
 # Installation
@@ -19,21 +19,23 @@ The project is stable and the current feature-set should be enough for most use 
 
 # Usage
 ````
-import Markdown from 'react-native-easy-markdown
+import Markdown from 'react-native-easy-markdown';
 
 ....
 
 render() {
   return(
     <Markdown>
-       # Why is markdown cool?
+     {
+        '# Why is markdown cool?\n\n' +
 
-       * because it lets us do simple formatting **easily**
-       * _without_ the need for complex CMS data structures
-       * and you can outsource ~~your~~ work to the content creators!
+        '* because it lets us do simple formatting **easily** \n' +
+        '* _without_ the need for complex CMS data structures \n' +
+        '* and you can outsource ~~your~~ work to the content creators! \n\n' +
 
-       ![We can add images!](http://placehold.it/300x300)
-       [Or link to places](http://foobar.com)
+        '![We can add images!](http://placehold.it/300x300) \n' +
+        '[Or link to places](http://foobar.com) \n'
+      }
     </Markdown>
   );
 }
@@ -41,16 +43,16 @@ render() {
 
 # Props
 
-Prop name  | Description | Type | Default value
-------------- | ------------- | --------- | ---------
+Prop name           | Description   | Type      | Default value
+--------------------|---------------|-----------|----------------
 `useDefaultStyles`  | Whether to use default styles (see below) | boolean | true
-`markdownStyles` | Override the default styles with your own (see style guide below) | object | {}
-`parseInline`  | Parse markdown inline, which is useful for simple markdown snippets intended to be displayed on a single line. ([see here for details](https://github.com/Khan/simple-markdown#simplemarkdowndefaultinlineparsesource)) | boolean | false
-`debug` | Output logs that show the component tree that is being rendered based on the supplied markdown. | boolean | false
-`style` | Style for the ```<Markdown/>``` component | object | {}
-`renderImage`| Custom renderer for images | function(src, alt, title) | none
-`renderLink` | Custom renderer for links | function(href, title, children) | none
-`renderListBullet` | Custom rendered for list bullets | function(ordered, index) | none
+`markdownStyles`    | Override the default styles with your own (see style guide below) | object | {}
+`parseInline`       | Parse markdown inline, which is useful for simple markdown snippets intended to be displayed on a single line. ([see here for details](https://github.com/Khan/simple-markdown#simplemarkdowndefaultinlineparsesource)) | boolean | false
+`debug`             | Output logs that show the component tree that is being rendered based on the supplied markdown. | boolean | false
+`style`             | Style for the ```<Markdown/>``` component | object | {}
+`renderImage`       | Custom renderer for images | function | none
+`renderLink`        | Custom renderer for links | function | none
+`renderListBullet`  | Custom rendered for list bullets | function | none
 
 If you need more control over how some of the components are rendered, you may provide the custom renderers outlined above like so:
 
@@ -81,32 +83,34 @@ Notice the `children` parameter passed to `renderLink`, which contains whatever 
 # Styling
 You can supply the component with your own ```markdownStyles``` prop to override the defaults. Note that styles will be overridden only for the supplied properties, and other properties will use the default styles if ```useDefaultStyles``` is true. Styles are applied to elements in order of specificity, so for example a **strong** text node would have both `text` and `strong` styles, in that order. Available styles are:
 
-Style | RN component | Description
-------|--------------|-------------
-h1-h6  | `<Text/>`      | # Heading 1-6
-text   | `<Text/>`      | Base styles for all text components
-strong | `<Text/>`      | Additional styles for **Strong** text only
-em     | `<Text/>`      | Additional styles for *italic* text only
-del    | `<Text/>`      | Additional styles for ~~strikethrough~~ text only
-linkWrapper | `<TouchableOpacity/>` | Touchable wrapper for links
-link | `<Text/>` | Additional styles for text within links
-list | `<View />` | Wrapper around lists
-listItem | `<View/>` | Wrapper around list items
-listItemContent | `<View/>` | List item content wrapper, excluding the bullet/number
-listItemTextContent | `<Text/>`| Additional styles applied to list item content wrappers where children are only text nodes.
-listItemBullet | `<View/>` | Bullet shown on unordered lists
-listItemNumber | `<Text/>` | Number shown on ordered lists
-block | `<View/>` | Wrapper around sections of content
-textBlock | `<Text/>` | Additional styles applied to blocks where children are only text nodes.
-image | `<Image/>` | Image component
+Style               | RN component          | Description
+--------------------|-----------------------|-------------
+h1-h6               | `<Text/>`             | # Heading 1-6
+text                | `<Text/>`             | Base styles for all text components
+strong              | `<Text/>`             | Additional styles for **Strong** text only
+em                  | `<Text/>`             | Additional styles for *italic* text only
+del                 | `<Text/>`             | Additional styles for ~~strikethrough~~ text only
+linkWrapper         | `<TouchableOpacity/>` | Touchable wrapper for links
+link                | `<Text/>`             | Additional styles for text within links
+list                | `<View />`            | Wrapper around lists
+listItem            | `<View/>`             | Wrapper around list items
+listItemContent     | `<View/>`             | List item content wrapper, excluding the bullet/number
+listItemTextContent | `<Text/>`             | Additional styles applied to list item content wrappers where children are only text nodes.
+listItemBullet      | `<View/>`             | Bullet shown on unordered lists
+listItemNumber      | `<Text/>`             | Number shown on ordered lists
+block               | `<View/>`             | Wrapper around paragraphs
+textBlock           | `<Text/>`             | Additional styles applied to paragraphs where children are only text nodes.
+imageWrapper        | `<View/>`             | Wrapper around images, for easier layouting
+image               | `<Image/>`            | Image component
 
 See [default styles](https://github.com/lappalj4/react-native-easy-markdown/blob/master/defaultStyles.js) for reference.
 
 # Caveats
 
 * Complex structures within list items, such as nested lists, should technically work but may yield unexpected results.
+* HTML-style raw text input will not be parsed correctly. Strings coming from an API or CMS etc. will work normally, but if you wish to supply the markdown component text directly as in the example, use the same format used there.
 
-# Changelog
+# Change Log
 
 **1.1.3**
 * Update default styles and move them to separate file.
@@ -135,15 +139,15 @@ See [default styles](https://github.com/lappalj4/react-native-easy-markdown/blob
 * Fixed missing return statement in componentShouldUpdate that was throwing a warning
 
 # Contributing and roadmap
-This project is stable and reliable with the current feature set, and I did not want to add support for some of the more obscure markdown components now as they are not needed for my personal use cases and I did not want to add something that is not 100% working. I am more than happy to accept pull requests for any components that you would like to see included in this library. Please make sure your code passes basic linting before submitting one, though!
+This project is stable and reliable with the current feature set, and I did not want to add support for some of the more obscure markdown components now as they are not needed for my personal use cases and I did not want to add something that is not 100% working. I am more than happy to accept pull requests for any components that you would like to see included in this library.
 
 Possible features to implement:
 
  - [ ] Tables
  - [ ] Blockquotes
  - [ ] Horizontal lines
- - [ ] Task lists (like this one)
- - [ ] (Your feature here)
+ - [ ] Task lists
+ - [ ] [More ideas](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
 # License (MIT)
 

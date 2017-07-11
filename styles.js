@@ -1,11 +1,10 @@
-module.exports = {
+const defaultStyles = {
     block: {
         marginBottom: 10,
-        flexWrap: 'wrap',
-        flexDirection: 'row'
     },
     textBlock: {
-
+        flexWrap: 'wrap',
+        flexDirection: 'row'
     },
     h1: {
         fontSize: 30,
@@ -62,7 +61,7 @@ module.exports = {
     listItem: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         marginVertical: 5,
     },
     listItemContent: {
@@ -78,13 +77,27 @@ module.exports = {
         height: 4,
         backgroundColor: 'black',
         borderRadius: 2,
-        marginRight: 10
+        marginRight: 10,
     },
     listItemNumber: {
         marginRight: 10
     },
+    imageContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start'
+    },
     image: {
-        width: 200,
+        flex: 1,
+        minWidth: 200,
         height: 200
+    },
+    blockQuote: {
+        backgroundColor: '#dddddd',
+        borderLeftWidth: 2,
+        borderLeftColor: 'black',
+        paddingLeft: 10
     }
 };
+
+module.exports = defaultStyles;

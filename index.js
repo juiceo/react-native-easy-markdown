@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import SimpleMarkdown from 'simple-markdown';
 
-import defaultStyles from './defaultStyles';
+import styles from './styles';
 import Utils from './Utils';
 
 class Markdown extends Component {
@@ -27,7 +27,7 @@ class Markdown extends Component {
         debug: false,
         useDefaultStyles: true,
         parseInline: false,
-        markdownStyles: {},
+        markdownStyles: {}
     }
 
     constructor(props) {
@@ -40,12 +40,12 @@ class Markdown extends Component {
         const parseTree = this.parser(blockSource, {inline: this.props.parseInline});
         const outputResult = this.reactOutput(parseTree);
 
-        const defaultStyles = this.props.useDefaultStyles ? defaultStyles : {};
-        const styles = StyleSheet.create(Object.assign(defaultStyles, this.props.markdownStyles));
+        const defaultStyles = this.props.useDefaultStyles && styles ? styles : {};
+        const _styles = StyleSheet.create(Object.assign(defaultStyles, this.props.markdownStyles));
 
         this.state = {
             syntaxTree: outputResult,
-            styles
+            styles: _styles
         };
     }
 
@@ -62,7 +62,7 @@ class Markdown extends Component {
         }
 
         if (nextProps.markdownStyles !== this.props.markdownStyles) {
-            const defaultStyles = this.props.useDefaultStyles ? defaultStyles : {};
+            const defaultStyles = this.props.useDefaultStyles && styles ? styles : {};
             newState.styles = StyleSheet.create(Object.assign(defaultStyles, nextProps.markdownStyles));
         }
 
@@ -83,7 +83,9 @@ class Markdown extends Component {
         }
 
         return(
-            <Image key={key} source={{uri: node.props.src}} style={styles.image}/>
+            <View style={styles.imageContainer}>
+                <Image key={key} source={{uri: node.props.src}} style={styles.image}/>
+            </View>
         );
     }
 
@@ -176,6 +178,17 @@ class Markdown extends Component {
         );
     }
 
+    renderBlockQuote(node, key) {
+
+        const {styles} = this.state;
+
+        return(
+            <View style={styles.blockQuote}>
+                {JSON.stringify(node, null, 4)}
+            </View>
+        );
+    }
+
     renderBlock(node, key, extras) {
         const {styles} = this.state;
 
@@ -216,6 +229,7 @@ class Markdown extends Component {
             case 'strong': return this.renderText(node, key, Utils.concatStyles(extras, styles.strong));
             case 'del': return this.renderText(node, key, Utils.concatStyles(extras, styles.del));
             case 'em': return this.renderText(node, key, Utils.concatStyles(extras, styles.em));
+            case 'blockquote': return this.renderBlockQuote(node, key);
             case undefined: return this.renderText(node, key, extras);
             default: if (this.props.debug) console.log('Node type '+node.type+' is not supported'); return null;
         }

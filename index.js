@@ -106,7 +106,7 @@ class Markdown extends Component {
 
         if (ordered) {
             return(
-                <Text style={styles.listItemNumber}>{index + '.'}</Text>
+                <Text style={styles.listItemNumber}>{index + 1 + '.'}</Text>
             );
         }
 

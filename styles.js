@@ -49,6 +49,9 @@ const defaultStyles = {
     del: {
         textDecorationLine: 'line-through',
     },
+    u: {
+        textDecorationLine: 'underline',
+    },
     linkWrapper: {
         alignSelf: 'flex-start',
     },

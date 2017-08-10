@@ -98,6 +98,7 @@ text                | `<Text/>`             | Base styles for all text compone
 strong              | `<Text/>`             | Additional styles for **Strong** text only
 em                  | `<Text/>`             | Additional styles for *italic* text only
 del                 | `<Text/>`             | Additional styles for ~~strikethrough~~ text only
+u                   | `<Text/>`             | Additional styles for underline text only
 linkWrapper         | `<TouchableOpacity/>` | Touchable wrapper for links
 link                | `<Text/>`             | Additional styles for text within links
 list                | `<View />`            | Wrapper around lists

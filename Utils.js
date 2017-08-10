@@ -1,9 +1,16 @@
 class Utils {
 
     static isTextOnly(nodes) {
-        for (let i = 0; i < nodes.length; i++) {
-            if (nodes[i].type.displayName !== 'Text') {
-                return false;
+        if(nodes.length) {
+            for (let i = 0; i < nodes.length; i++) {
+                if(nodes[i] &&
+                    nodes[i].hasOwnProperty('type') &&
+                    nodes[i].type.hasOwnProperty('displayName')) {
+                    if (nodes[i].type.displayName !== 'Text') {
+                        return false;
+                    }
+                }
+
             }
         }
         return true;

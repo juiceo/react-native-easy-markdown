@@ -229,6 +229,7 @@ class Markdown extends Component {
             case 'strong': return this.renderText(node, key, Utils.concatStyles(extras, styles.strong));
             case 'del': return this.renderText(node, key, Utils.concatStyles(extras, styles.del));
             case 'em': return this.renderText(node, key, Utils.concatStyles(extras, styles.em));
+            case 'u': return this.renderText(node, key, Utils.concatStyles(extras, styles.u));
             case 'blockquote': return this.renderBlockQuote(node, key);
             case undefined: return this.renderText(node, key, extras);
             default: if (this.props.debug) console.log('Node type '+node.type+' is not supported'); return null;

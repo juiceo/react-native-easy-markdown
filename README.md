@@ -1,16 +1,16 @@
 # React Native Easy Markdown
-React Native Easy Markdown is a simple React Native component for rendering [Markdown](https://help.github.com/articles/getting-started-with-writing-and-formatting-on-github/) as native components, and it works equally well on both Android and iOS. 
+React Native Easy Markdown is a simple React Native component for rendering [Markdown](https://help.github.com/articles/getting-started-with-writing-and-formatting-on-github/) as native components, and it works equally well on both Android and iOS.
 
 RNEM was created because other available libraries seemed to be somewhat inconsistent in how the parsed markdown is displayed, and they would render component trees filled with e.g. nested ```<Text/>``` components where that was not necessary, which made styling difficult. RNEM also provides a possibility to supply your own render methods for certain components, such as images and links, so you can style and layout them however you wish.
 
-For now, the following markdown is supported: 
+For now, the following markdown is supported:
 
 * Text formatting (headings, strong, italics, strikethrough...)
 * Lists (ordered / unordered )
 * Images
 * Links
 
-Any unsupported markdown will not crash your app, as it is simply ignored. If there is a more out-there use case you wish to have supported (such as code blocks etc.), the code is clean and simple to work on, and pull requests are most welcome. The project is stable and the current feature set should be enough for most use cases. 
+Any unsupported markdown will not crash your app, as it is simply ignored. If there is a more out-there use case you wish to have supported (such as code blocks etc.), the code is clean and simple to work on, and pull requests are most welcome. The project is stable and the current feature set should be enough for most use cases.
 
 * [Installation](#installation)
 * [Usage](#usage)
@@ -119,6 +119,11 @@ See [default styles](https://github.com/lappalj4/react-native-easy-markdown/blob
 * HTML-style raw text input will not be parsed correctly. Strings coming from an API or CMS etc. will work normally, but if you wish to supply the markdown component text directly as in the example, use the same format used there.
 
 # Change Log
+
+**1.1.7**
+* Fix crash on unsupported node types
+* Add support for node type 'u' (underline)
+* Start list item indexes from 1 (was previously 0)
 
 **1.1.3**
 * Update default styles and move them to separate file.

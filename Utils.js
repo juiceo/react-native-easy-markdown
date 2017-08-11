@@ -34,14 +34,15 @@ class Utils {
         return newExtras;
     }
 
-    static logDebug(nodeTree) {
+    static logDebug(nodeTree, level = 0) {
         for (let i = 0; i < nodeTree.length; i++) {
             const node = nodeTree[i];
 
             if (node) {
-                console.log(node.key + ' - ' + node.type.displayName, node);
+                let prefix = Array(level).join('-');
+                console.log(prefix + '> ' + node.key + ', NODE TYPE: ' + node.type.displayName);
                 if (Array.isArray(node.props.children)) {
-                    this.logDebug(node.props.children);
+                    this.logDebug(node.props.children, level + 1);
                 }
             }
         }

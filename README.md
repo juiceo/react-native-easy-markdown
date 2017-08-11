@@ -6,6 +6,7 @@ RNEM was created because other available libraries seemed to be somewhat inconsi
 For now, the following markdown is supported:
 
 * Text formatting (headings, strong, italics, strikethrough...)
+* Blockquotes
 * Lists (ordered / unordered )
 * Images
 * Links
@@ -40,6 +41,8 @@ render() {
         '* because it lets us do simple formatting **easily** \n' +
         '* _without_ the need for complex CMS data structures \n' +
         '* and you can outsource ~~your~~ work to the content creators! \n\n' +
+
+        '> This is a blockquote \n\n' +
 
         '![We can add images!](http://placehold.it/300x300) \n' +
         '[Or link to places](http://foobar.com) \n'
@@ -107,7 +110,7 @@ listItemTextContent | `<Text/>`             | Additional styles applied to list 
 listItemBullet      | `<View/>`             | Bullet shown on unordered lists
 listItemNumber      | `<Text/>`             | Number shown on ordered lists
 block               | `<View/>`             | Wrapper around paragraphs
-textBlock           | `<Text/>`             | Additional styles applied to paragraphs where children are only text nodes.
+blockQuote          | `<View/>`             | Additional styles for paragraphs which are blockquotes
 imageWrapper        | `<View/>`             | Wrapper around images, for easier layouting
 image               | `<Image/>`            | Image component
 
@@ -119,6 +122,11 @@ See [default styles](https://github.com/lappalj4/react-native-easy-markdown/blob
 * HTML-style raw text input will not be parsed correctly. Strings coming from an API or CMS etc. will work normally, but if you wish to supply the markdown component text directly as in the example, use the same format used there.
 
 # Change Log
+
+**1.1.8**
+* Added support for blockquotes
+* Improved log output
+* Remove textBlock style option
 
 **1.1.7**
 * Fix crash on unsupported node types
@@ -157,7 +165,6 @@ This project is stable and reliable with the current feature set, and I did not 
 Possible features to implement:
 
  - [ ] Tables
- - [ ] Blockquotes
  - [ ] Horizontal lines
  - [ ] Task lists
  - [ ] [More ideas](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)

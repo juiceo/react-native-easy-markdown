@@ -4,8 +4,11 @@ const defaultStyles = {
         flexWrap: 'wrap',
         flexDirection: 'row'
     },
-    textBlock: {
-
+    blockQuote: {
+        borderLeftWidth: 5,
+        borderLeftColor: '#aaaaaa',
+        backgroundColor: '#cccccc',
+        paddingLeft: 10
     },
     h1: {
         fontSize: 30,

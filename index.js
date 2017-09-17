@@ -223,6 +223,9 @@ class Markdown extends Component {
     }
 
     renderNode(node, key, index, extras) {
+        if (node == null) {
+            return null;
+        }
 
         const {styles} = this.state;
 

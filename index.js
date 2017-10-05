@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import {
     TouchableOpacity,
     Text,
@@ -14,13 +15,13 @@ import Utils from './Utils';
 
 class Markdown extends Component {
     static propTypes = {
-        debug: React.PropTypes.bool,
-        parseInline: React.PropTypes.bool,
-        markdownStyles: React.PropTypes.object,
-        useDefaultStyles: React.PropTypes.bool,
-        renderImage: React.PropTypes.func,
-        renderLink: React.PropTypes.func,
-        renderListBullet: React.PropTypes.func,
+        debug: PropTypes.bool,
+        parseInline: PropTypes.bool,
+        markdownStyles: PropTypes.object,
+        useDefaultStyles: PropTypes.bool,
+        renderImage: PropTypes.func,
+        renderLink: PropTypes.func,
+        renderListBullet: PropTypes.func,
     }
 
     static defaultProps = {

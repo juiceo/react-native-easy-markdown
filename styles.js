@@ -41,7 +41,7 @@ const defaultStyles = {
         marginBottom: 6
     },
     hr: {
-        width:'100%',
+        alignSelf: 'stretch'
         height:1,
         backgroundColor:'#333333',
         marginVertical: 8,

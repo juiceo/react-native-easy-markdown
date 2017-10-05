@@ -93,8 +93,7 @@ class Markdown extends Component {
         const {styles} = this.state;
 
         return(
-            <View style={styles.hr} key={'hr_' + key}>
-            </View>
+            <View style={styles.hr} key={'hr_' + key} />
         );
     }
 

@@ -40,6 +40,12 @@ const defaultStyles = {
         marginTop: 12,
         marginBottom: 6
     },
+    hr: {
+        width:'100%',
+        height:1,
+        backgroundColor:'#333333',
+        marginVertical: 8,
+    },
     text: {
         alignSelf: 'flex-start'
     },

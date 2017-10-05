@@ -242,7 +242,7 @@ class Markdown extends Component {
             case 'h4': return this.renderText(node, key, Utils.concatStyles(extras, styles.h4))
             case 'h5': return this.renderText(node, key, Utils.concatStyles(extras, styles.h5));
             case 'h6': return this.renderText(node, key, Utils.concatStyles(extras, styles.h6));
-            case 'hr': return this.renderLine(node, key, Utils.concatStyles(extras, styles.hr));
+            case 'hr': return this.renderLine(node, key);
             case 'div': return this.renderBlock(node, key, extras);
             case 'ul': return this.renderList(node, key, false);
             case 'ol': return this.renderList(node, key, true);

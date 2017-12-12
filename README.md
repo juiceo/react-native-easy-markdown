@@ -124,6 +124,9 @@ See [default styles](https://github.com/lappalj4/react-native-easy-markdown/blob
 
 # Change Log
 
+**1.1.9**
+* Use PropTypes instead of React.PropTypes
+
 **1.1.8**
 * Added support for blockquotes
 * Improved log output

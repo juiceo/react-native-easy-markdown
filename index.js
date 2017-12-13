@@ -34,7 +34,10 @@ class Markdown extends Component {
     constructor(props) {
         super(props);
 
-        const rules = SimpleMarkdown.defaultRules;
+        const rules = {
+            ...SimpleMarkdown.defaultRules, 
+            ...this.props.rules
+        };
         this.parser = SimpleMarkdown.parserFor(rules);
         this.reactOutput = SimpleMarkdown.reactFor(SimpleMarkdown.ruleOutput(rules, 'react'));
         const blockSource = this.props.children + '\n\n';
@@ -170,6 +173,10 @@ class Markdown extends Component {
         }
     }
 
+    renderCustom(node) {
+        return React.Children.only(node.props.children);
+    }
+
     renderLink(node, key) {
 
         const {styles} = this.state;
@@ -238,7 +245,6 @@ class Markdown extends Component {
 
         const {styles} = this.state;
 
-
         switch(node.type) {
             case 'h1': return this.renderText(node, key, Utils.concatStyles(extras, styles.h1));
             case 'h2': return this.renderText(node, key, Utils.concatStyles(extras, styles.h2));
@@ -258,6 +264,7 @@ class Markdown extends Component {
             case 'em': return this.renderText(node, key, Utils.concatStyles(extras, styles.em));
             case 'u': return this.renderText(node, key, Utils.concatStyles(extras, styles.u));
             case 'blockquote': return this.renderBlockQuote(node, key);
+            case 'custom': return this.renderCustom(node, key);
             case undefined: return this.renderText(node, key, extras);
             default: if (this.props.debug) console.log('Node type '+node.type+' is not supported'); return null;
         }

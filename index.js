@@ -173,10 +173,6 @@ class Markdown extends Component {
         }
     }
 
-    renderCustom(node) {
-        return React.Children.only(node.props.children);
-    }
-
     renderLink(node, key) {
 
         const {styles} = this.state;
@@ -238,6 +234,10 @@ class Markdown extends Component {
         }
     }
 
+    renderCustom(node) {
+        return React.Children.only(node.props.children);
+    }
+
     renderCode(node, key, extras) {
         const {styles} = this.state;
 
@@ -276,7 +276,7 @@ class Markdown extends Component {
             case 'em': return this.renderText(node, key, Utils.concatStyles(extras, styles.em));
             case 'u': return this.renderText(node, key, Utils.concatStyles(extras, styles.u));
             case 'blockquote': return this.renderBlockQuote(node, key);
-            case 'code': return this.renderCode(node, key);
+            case 'code': return this.renderCode(node, key, extras);
             case 'custom': return this.renderCustom(node, key);
             case undefined: return this.renderText(node, key, extras);
             default: if (this.props.debug) console.log('Node type '+node.type+' is not supported'); return null;

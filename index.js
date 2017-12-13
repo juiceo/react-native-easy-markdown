@@ -238,6 +238,18 @@ class Markdown extends Component {
         }
     }
 
+    renderCode(node, key, extras) {
+        const {styles} = this.state;
+
+        let style = (extras && extras.style) ? [styles.code].concat(extras.style) : styles.code;
+
+        return(
+            <Text key={key} style={style}>
+                {node.props.children}
+            </Text>
+        );
+    }
+
     renderNode(node, key, index, extras) {
         if (node == null || node == "null" || node == "undefined" || node == "") {
             return null;
@@ -264,6 +276,7 @@ class Markdown extends Component {
             case 'em': return this.renderText(node, key, Utils.concatStyles(extras, styles.em));
             case 'u': return this.renderText(node, key, Utils.concatStyles(extras, styles.u));
             case 'blockquote': return this.renderBlockQuote(node, key);
+            case 'code': return this.renderCode(node, key);
             case 'custom': return this.renderCustom(node, key);
             case undefined: return this.renderText(node, key, extras);
             default: if (this.props.debug) console.log('Node type '+node.type+' is not supported'); return null;

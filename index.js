@@ -22,20 +22,22 @@ class Markdown extends Component {
         renderImage: PropTypes.func,
         renderLink: PropTypes.func,
         renderListBullet: PropTypes.func,
+        renderInline: PropTypes.bool,
     }
 
     static defaultProps = {
         debug: false,
         useDefaultStyles: true,
         parseInline: false,
-        markdownStyles: {}
+        markdownStyles: {},
+        renderInline: false
     }
 
     constructor(props) {
         super(props);
 
-        const rules = {
-            ...SimpleMarkdown.defaultRules, 
+        let rules = {
+            ...SimpleMarkdown.defaultRules,
             ...this.props.rules
         };
         this.parser = SimpleMarkdown.parserFor(rules);
@@ -219,8 +221,15 @@ class Markdown extends Component {
                     </View>
                 );
             } else {
+                const additionalProps = {}
+                if (this.props.renderInline) {
+                    additionalProps = {
+                        ellipsizeMode:'tail',
+                        numberOfLines: 1,
+                    }
+                }
                 return(
-                    <Text key={'block_' + key} style={styles.block}>
+                    <Text key={'block_' + key} style={styles.block} {...additionalProps}>
                         {nodes}
                     </Text>
                 );

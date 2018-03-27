@@ -217,7 +217,7 @@ class Markdown extends Component {
                 );
             } else {
                 return(
-                    <Text key={'block_' + key} style={styles.block}>
+                    <Text key={'block_' + key} style={[styles.block, styles.text]}>
                         {nodes}
                     </Text>
                 );

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import {
-    TouchableOpacity,
     Text,
     View,
     Image,
@@ -186,9 +185,9 @@ class Markdown extends Component {
         }
 
         return(
-            <TouchableOpacity style={styles.linkWrapper} key={'linkWrapper_' + key} onPress={() => Linking.openURL(node.props.href).catch(() => {})}>
+            <Text style={styles.linkWrapper} key={'linkWrapper_' + key} onPress={() => Linking.openURL(node.props.href).catch(() => {})}>
                 {children}
-            </TouchableOpacity>
+            </Text>
         );
     }
 

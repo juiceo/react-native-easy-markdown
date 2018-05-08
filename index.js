@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import {
-    TouchableOpacity,
     Text,
     View,
     Image,
@@ -22,19 +21,24 @@ class Markdown extends Component {
         renderImage: PropTypes.func,
         renderLink: PropTypes.func,
         renderListBullet: PropTypes.func,
+        renderInline: PropTypes.bool,
     }
 
     static defaultProps = {
         debug: false,
         useDefaultStyles: true,
         parseInline: false,
-        markdownStyles: {}
+        markdownStyles: {},
+        renderInline: false
     }
 
     constructor(props) {
         super(props);
 
-        const rules = SimpleMarkdown.defaultRules;
+        let rules = {
+            ...SimpleMarkdown.defaultRules,
+            ...this.props.rules
+        };
         this.parser = SimpleMarkdown.parserFor(rules);
         this.reactOutput = SimpleMarkdown.reactFor(SimpleMarkdown.ruleOutput(rules, 'react'));
         const blockSource = this.props.children + '\n\n';
@@ -181,9 +185,9 @@ class Markdown extends Component {
         }
 
         return(
-            <TouchableOpacity style={styles.linkWrapper} key={'linkWrapper_' + key} onPress={() => Linking.openURL(node.props.href).catch(() => {})}>
+            <Text style={styles.linkWrapper} key={'linkWrapper_' + key} onPress={() => Linking.openURL(node.props.href).catch(() => {})}>
                 {children}
-            </TouchableOpacity>
+            </Text>
         );
     }
 
@@ -216,8 +220,15 @@ class Markdown extends Component {
                     </View>
                 );
             } else {
+                const additionalProps = {}
+                if (this.props.renderInline) {
+                    additionalProps = {
+                        ellipsizeMode:'tail',
+                        numberOfLines: 1,
+                    }
+                }
                 return(
-                    <Text key={'block_' + key} style={styles.block}>
+                    <Text key={'block_' + key} style={styles.block} {...additionalProps}>
                         {nodes}
                     </Text>
                 );
@@ -231,13 +242,28 @@ class Markdown extends Component {
         }
     }
 
+    renderCustom(node) {
+        return React.Children.only(node.props.children);
+    }
+
+    renderCode(node, key, extras) {
+        const {styles} = this.state;
+
+        let style = (extras && extras.style) ? [styles.code].concat(extras.style) : styles.code;
+
+        return(
+            <Text key={key} style={style}>
+                {node.props.children}
+            </Text>
+        );
+    }
+
     renderNode(node, key, index, extras) {
         if (node == null || node == "null" || node == "undefined" || node == "") {
             return null;
         }
 
         const {styles} = this.state;
-
 
         switch(node.type) {
             case 'h1': return this.renderText(node, key, Utils.concatStyles(extras, styles.h1));
@@ -258,6 +284,8 @@ class Markdown extends Component {
             case 'em': return this.renderText(node, key, Utils.concatStyles(extras, styles.em));
             case 'u': return this.renderText(node, key, Utils.concatStyles(extras, styles.u));
             case 'blockquote': return this.renderBlockQuote(node, key);
+            case 'code': return this.renderCode(node, key, extras);
+            case 'custom': return this.renderCustom(node, key);
             case undefined: return this.renderText(node, key, extras);
             default: if (this.props.debug) console.log('Node type '+node.type+' is not supported'); return null;
         }

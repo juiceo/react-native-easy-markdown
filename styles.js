@@ -104,6 +104,9 @@ const defaultStyles = {
         flex: 1,
         minWidth: 200,
         height: 200
+    },
+    code: {
+        backgroundColor: '#cccccc'
     }
 };
 

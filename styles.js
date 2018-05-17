@@ -42,8 +42,8 @@ const defaultStyles = {
     },
     hr: {
         alignSelf: 'stretch',
-        height:1,
-        backgroundColor:'#333333',
+        height: 1,
+        backgroundColor: '#333333',
         marginVertical: 8,
     },
     text: {
@@ -81,9 +81,6 @@ const defaultStyles = {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-    },
-    listItemTextContent: {
-
     },
     listItemBullet: {
         width: 4,

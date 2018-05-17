@@ -1,20 +1,22 @@
 class Utils {
 
-    static isTextOnly(nodes) {
-        if(nodes.length) {
-            for (let i = 0; i < nodes.length; i++) {
-                if(nodes[i] &&
-                    nodes[i].hasOwnProperty('type') &&
-                    nodes[i].type.hasOwnProperty('displayName')) {
-                    if (nodes[i].type.displayName !== 'Text') {
-                        return false;
-                    }
-                }
+    // Was causing crashes with RN > 0.55, removed for now.
+    // 
+    // static isTextOnly(nodes) {
+    //     if (nodes.length) {
+    //         for (let i = 0; i < nodes.length; i++) {
+    //             if (nodes[i] &&
+    //                 nodes[i].hasOwnProperty('type') &&
+    //                 nodes[i].type.hasOwnProperty('displayName')) {
+    //                 if (nodes[i].type.displayName !== 'Text') {
+    //                     return false;
+    //                 }
+    //             }
 
-            }
-        }
-        return true;
-    }
+    //         }
+    //     }
+    //     return true;
+    // }
 
     static concatStyles(extras, newStyle) {
         let newExtras;

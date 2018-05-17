@@ -54,16 +54,16 @@ render() {
 
 # Props
 
-Prop name           | Description   | Type      | Default value
---------------------|---------------|-----------|----------------
-`useDefaultStyles`  | Whether to use default styles (see below) | boolean | true
-`markdownStyles`    | Override the default styles with your own (see style guide below) | object | {}
-`parseInline`       | Parse markdown inline, which is useful for simple markdown snippets intended to be displayed on a single line. ([see here for details](https://github.com/Khan/simple-markdown#simplemarkdowndefaultinlineparsesource)) | boolean | false
-`debug`             | Output logs that show the component tree that is being rendered based on the supplied markdown. | boolean | false
-`style`             | Style for the ```<Markdown/>``` component | object | {}
-`renderImage`       | Custom renderer for images | function | none
-`renderLink`        | Custom renderer for links | function | none
-`renderListBullet`  | Custom rendered for list bullets | function | none
+| Prop name          | Description                                                                                                                                                                                                             | Type     | Default value |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------- |
+| `useDefaultStyles` | Whether to use default styles (see below)                                                                                                                                                                               | boolean  | true          |
+| `markdownStyles`   | Override the default styles with your own (see style guide below)                                                                                                                                                       | object   | {}            |
+| `parseInline`      | Parse markdown inline, which is useful for simple markdown snippets intended to be displayed on a single line. ([see here for details](https://github.com/Khan/simple-markdown#simplemarkdowndefaultinlineparsesource)) | boolean  | false         |
+| `debug`            | Output logs that show the component tree that is being rendered based on the supplied markdown.                                                                                                                         | boolean  | false         |
+| `style`            | Style for the ```<Markdown/>``` component                                                                                                                                                                               | object   | {}            |
+| `renderImage`      | Custom renderer for images                                                                                                                                                                                              | function | none          |
+| `renderLink`       | Custom renderer for links                                                                                                                                                                                               | function | none          |
+| `renderListBullet` | Custom rendered for list bullets                                                                                                                                                                                        | function | none          |
 
 If you need more control over how some of the components are rendered, you may provide the custom renderers outlined above like so:
 
@@ -94,26 +94,25 @@ Notice the `children` parameter passed to `renderLink`, which contains whatever 
 # Styling
 You can supply the component with your own ```markdownStyles``` prop to override the defaults. Note that styles will be overridden only for the supplied properties, and other properties will use the default styles if ```useDefaultStyles``` is true. Styles are applied to elements in order of specificity, so for example a **strong** text node would have both `text` and `strong` styles, in that order. Available styles are:
 
-Style               | RN component          | Description
---------------------|-----------------------|-------------
-h1-h6               | `<Text/>`             | # Heading 1-6
-text                | `<Text/>`             | Base styles for all text components
-strong              | `<Text/>`             | Additional styles for **Strong** text only
-em                  | `<Text/>`             | Additional styles for *italic* text only
-del                 | `<Text/>`             | Additional styles for ~~strikethrough~~ text only
-u                   | `<Text/>`             | Additional styles for underline text only
-linkWrapper         | `<TouchableOpacity/>` | Touchable wrapper for links
-link                | `<Text/>`             | Additional styles for text within links
-list                | `<View />`            | Wrapper around lists
-listItem            | `<View/>`             | Wrapper around list items
-listItemContent     | `<View/>`             | List item content wrapper, excluding the bullet/number
-listItemTextContent | `<Text/>`             | Additional styles applied to list item content wrappers where children are only text nodes.
-listItemBullet      | `<View/>`             | Bullet shown on unordered lists
-listItemNumber      | `<Text/>`             | Number shown on ordered lists
-block               | `<View/>`             | Wrapper around paragraphs
-blockQuote          | `<View/>`             | Additional styles for paragraphs which are blockquotes
-imageWrapper        | `<View/>`             | Wrapper around images, for easier layouting
-image               | `<Image/>`            | Image component
+| Style           | RN component          | Description                                            |
+| --------------- | --------------------- | ------------------------------------------------------ |
+| h1-h6           | `<Text/>`             | # Heading 1-6                                          |
+| text            | `<Text/>`             | Base styles for all text components                    |
+| strong          | `<Text/>`             | Additional styles for **Strong** text only             |
+| em              | `<Text/>`             | Additional styles for *italic* text only               |
+| del             | `<Text/>`             | Additional styles for ~~strikethrough~~ text only      |
+| u               | `<Text/>`             | Additional styles for underline text only              |
+| linkWrapper     | `<TouchableOpacity/>` | Touchable wrapper for links                            |
+| link            | `<Text/>`             | Additional styles for text within links                |
+| list            | `<View />`            | Wrapper around lists                                   |
+| listItem        | `<View/>`             | Wrapper around list items                              |
+| listItemContent | `<View/>`             | List item content wrapper, excluding the bullet/number |
+| listItemBullet  | `<View/>`             | Bullet shown on unordered lists                        |
+| listItemNumber  | `<Text/>`             | Number shown on ordered lists                          |
+| block           | `<View/>`             | Wrapper around paragraphs                              |
+| blockQuote      | `<View/>`             | Additional styles for paragraphs which are blockquotes |
+| imageWrapper    | `<View/>`             | Wrapper around images, for easier layouting            |
+| image           | `<Image/>`            | Image component                                        |
 
 See [default styles](https://github.com/lappalj4/react-native-easy-markdown/blob/master/styles.js) for reference.
 
@@ -123,6 +122,9 @@ See [default styles](https://github.com/lappalj4/react-native-easy-markdown/blob
 * HTML-style raw text input will not be parsed correctly. Strings coming from an API or CMS etc. will work normally, but if you wish to supply the markdown component text directly as in the example, use the same format used there.
 
 # Change Log
+
+**1.2.0**
+* Fixed crash on RN > 0.55 (#17)
 
 **1.1.8**
 * Added support for blockquotes

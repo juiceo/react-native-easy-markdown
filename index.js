@@ -38,7 +38,7 @@ class Markdown extends Component {
         this.parser = SimpleMarkdown.parserFor(rules);
         this.reactOutput = SimpleMarkdown.reactFor(SimpleMarkdown.ruleOutput(rules, 'react'));
         const blockSource = this.props.children + '\n\n';
-        const parseTree = this.parser(blockSource, {inline: this.props.parseInline});
+        const parseTree = this.parser(blockSource, { inline: this.props.parseInline });
         const outputResult = this.reactOutput(parseTree);
 
         const defaultStyles = this.props.useDefaultStyles && styles ? styles : {};
@@ -56,7 +56,7 @@ class Markdown extends Component {
 
         if (nextProps.children !== this.props.children) {
             const blockSource = nextProps.children + '\n\n';
-            const parseTree = this.parser(blockSource, {inline: this.props.parseInline});
+            const parseTree = this.parser(blockSource, { inline: this.props.parseInline });
             const outputResult = this.reactOutput(parseTree);
 
             newState.syntaxTree = outputResult;
@@ -77,94 +77,83 @@ class Markdown extends Component {
     }
 
     renderImage(node, key) {
-        const {styles} = this.state;
+        const { styles } = this.state;
 
         if (this.props.renderImage) {
             return this.props.renderImage(node.props.src, node.props.alt, node.props.title);
         }
 
-        return(
+        return (
             <View style={styles.imageWrapper} key={'imageWrapper_' + key}>
-                <Image source={{uri: node.props.src}} style={styles.image}/>
+                <Image source={{ uri: node.props.src }} style={styles.image} />
             </View>
         );
     }
 
     renderLine(node, key) {
-        const {styles} = this.state;
+        const { styles } = this.state;
 
-        return(
+        return (
             <View style={styles.hr} key={'hr_' + key} />
         );
     }
 
     renderList(node, key, ordered) {
 
-        const {styles} = this.state;
+        const { styles } = this.state;
 
-        return(
+        return (
             <View key={'list_' + key} style={styles.list}>
-                {this.renderNodes(node.props.children, key, {ordered})}
+                {this.renderNodes(node.props.children, key, { ordered })}
             </View>
         );
     }
 
     renderListBullet(ordered, index) {
 
-        const {styles} = this.state;
+        const { styles } = this.state;
 
         if (ordered) {
-            return(
+            return (
                 <Text key={'listBullet_' + index} style={styles.listItemNumber}>{index + 1 + '.'}</Text>
             );
         }
 
-        return(
-            <View key={'listBullet_' + index} style={styles.listItemBullet}/>
+        return (
+            <View key={'listBullet_' + index} style={styles.listItemBullet} />
         );
     }
 
     renderListItem(node, key, index, extras) {
 
-        const {styles} = this.state;
+        const { styles } = this.state;
 
         let children = this.renderNodes(node.props.children, key, extras);
 
-        if (Utils.isTextOnly(children)) {
-            return(
-                <View style={styles.listItem} key={'listItem_' + key}>
-                    {this.props.renderListBullet ? this.props.renderListBullet(extras.ordered, index) : this.renderListBullet(extras.ordered, index)}
-                    <Text key={'listItemContent_' + key} style={[styles.listItemContent, styles.listItemTextContent]}>
-                        {children}
-                    </Text>
+        return (
+            <View style={styles.listItem} key={'listItem_' + key}>
+                {this.props.renderListBullet ? this.props.renderListBullet(extras.ordered, index) : this.renderListBullet(extras.ordered, index)}
+                <View key={'listItemContent_' + key} style={styles.listItemContent}>
+                    {children}
                 </View>
-            );
-        } else {
-            return(
-                <View style={styles.listItem} key={'listItem_' + key}>
-                    {this.props.renderListBullet ? this.props.renderListBullet(extras.ordered, index) : this.renderListBullet(extras.ordered, index)}
-                    <View key={'listItemContent_' + key} style={styles.listItemContent}>
-                        {children}
-                    </View>
-                </View>
-            );
-        }
+            </View>
+        );
     }
 
     renderText(node, key, extras) {
 
-        const {styles} = this.state;
+        const { styles } = this.state;
 
         let style = (extras && extras.style) ? [styles.text].concat(extras.style) : styles.text;
 
         if (node.props) {
-            return(
+            return (
                 <Text key={key} style={style}>
                     {this.renderNodes(node.props.children, key, extras)}
                 </Text>
             );
         } else {
-            return(
+            return (
                 <Text key={key} style={style}>{node}</Text>
             );
         }
@@ -172,7 +161,7 @@ class Markdown extends Component {
 
     renderLink(node, key) {
 
-        const {styles} = this.state;
+        const { styles } = this.state;
         let extras = Utils.concatStyles(null, styles.link);
         let children = this.renderNodes(node.props.children, key, extras);
 
@@ -180,20 +169,20 @@ class Markdown extends Component {
             return this.props.renderLink(node.props.href, node.props.title, children);
         }
 
-        return(
-            <TouchableOpacity style={styles.linkWrapper} key={'linkWrapper_' + key} onPress={() => Linking.openURL(node.props.href).catch(() => {})}>
+        return (
+            <TouchableOpacity style={styles.linkWrapper} key={'linkWrapper_' + key} onPress={() => Linking.openURL(node.props.href).catch(() => { })}>
                 {children}
             </TouchableOpacity>
         );
     }
 
     renderBlockQuote(node, key, extras) {
-        extras = extras ? Object.assign(extras, {blockQuote: true}) : {blockQuote: true};
+        extras = extras ? Object.assign(extras, { blockQuote: true }) : { blockQuote: true };
         return this.renderBlock(node, key, extras);
     }
 
     renderBlock(node, key, extras) {
-        const {styles} = this.state;
+        const { styles } = this.state;
 
         let style = [styles.block];
         let isBlockQuote;
@@ -207,23 +196,16 @@ class Markdown extends Component {
         }
         const nodes = this.renderNodes(node.props.children, key, extras);
 
-        if (Utils.isTextOnly(nodes)) {
-            if (isBlockQuote) {
-                style.push(styles.blockQuote)
-                return(
-                    <View key={'blockQuote_' + key} style={[styles.block, styles.blockQuote]}>
-                        <Text>{nodes}</Text>
-                    </View>
-                );
-            } else {
-                return(
-                    <Text key={'block_' + key} style={styles.block}>
-                        {nodes}
-                    </Text>
-                );
-            }
-        } else {
-            return(
+        if (isBlockQuote) {
+            style.push(styles.blockQuote)
+            return (
+                <View key={'blockQuote_' + key} style={[styles.block, styles.blockQuote]}>
+                    <Text>{nodes}</Text>
+                </View>
+            );
+        }
+        else {
+            return (
                 <View key={'block_' + key} style={styles.block}>
                     {nodes}
                 </View>
@@ -236,10 +218,10 @@ class Markdown extends Component {
             return null;
         }
 
-        const {styles} = this.state;
+        const { styles } = this.state;
 
 
-        switch(node.type) {
+        switch (node.type) {
             case 'h1': return this.renderText(node, key, Utils.concatStyles(extras, styles.h1));
             case 'h2': return this.renderText(node, key, Utils.concatStyles(extras, styles.h2));
             case 'h3': return this.renderText(node, key, Utils.concatStyles(extras, styles.h3));
@@ -259,7 +241,7 @@ class Markdown extends Component {
             case 'u': return this.renderText(node, key, Utils.concatStyles(extras, styles.u));
             case 'blockquote': return this.renderBlockQuote(node, key);
             case undefined: return this.renderText(node, key, extras);
-            default: if (this.props.debug) console.log('Node type '+node.type+' is not supported'); return null;
+            default: if (this.props.debug) console.log('Node type ' + node.type + ' is not supported'); return null;
         }
     }
 
@@ -278,7 +260,7 @@ class Markdown extends Component {
             Utils.logDebug(content);
         }
 
-        return(
+        return (
             <View {...this.props}>
                 {content}
             </View>

@@ -123,8 +123,12 @@ See [default styles](https://github.com/lappalj4/react-native-easy-markdown/blob
 
 # Change Log
 
+
 **1.2.0**
 * Fixed crash on RN > 0.55 (#17)
+
+**1.1.9**
+* Use PropTypes instead of React.PropTypes
 
 **1.1.8**
 * Added support for blockquotes

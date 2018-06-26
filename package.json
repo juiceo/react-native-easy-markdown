@@ -1,6 +1,6 @@
 {
     "name": "react-native-easy-markdown",
-    "version": "1.1.9",
+    "version": "1.2.0",
     "description": "Simple & customizable React Native component to render Github-flavoured markdown using minimal native components.",
     "main": "index.js",
     "repository": "https://github.com/lappalj4/react-native-easy-markdown",

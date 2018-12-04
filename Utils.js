@@ -1,7 +1,6 @@
-class Utils {
-
+const Utils = {
     // Was causing crashes with RN > 0.55, removed for now.
-    // 
+    //
     // static isTextOnly(nodes) {
     //     if (nodes.length) {
     //         for (let i = 0; i < nodes.length; i++) {
@@ -18,7 +17,7 @@ class Utils {
     //     return true;
     // }
 
-    static concatStyles(extras, newStyle) {
+    concatStyles: concatStyles(extras, newStyle) {
         let newExtras;
         if (extras) {
             newExtras = JSON.parse(JSON.stringify(extras));
@@ -34,9 +33,9 @@ class Utils {
             };
         }
         return newExtras;
-    }
+    },
 
-    static logDebug(nodeTree, level = 0) {
+    logDebug: logDebug(nodeTree, level = 0) {
         for (let i = 0; i < nodeTree.length; i++) {
             const node = nodeTree[i];
 

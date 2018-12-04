@@ -14,23 +14,6 @@ import styles from './styles';
 import Utils from './Utils';
 
 class Markdown extends Component {
-    static propTypes = {
-        debug: PropTypes.bool,
-        parseInline: PropTypes.bool,
-        markdownStyles: PropTypes.object,
-        useDefaultStyles: PropTypes.bool,
-        renderImage: PropTypes.func,
-        renderLink: PropTypes.func,
-        renderListBullet: PropTypes.func,
-    }
-
-    static defaultProps = {
-        debug: false,
-        useDefaultStyles: true,
-        parseInline: false,
-        markdownStyles: {}
-    }
-
     constructor(props) {
         super(props);
 
@@ -267,5 +250,22 @@ class Markdown extends Component {
         );
     }
 }
+
+Markdown.propTypes = {
+    debug: PropTypes.bool,
+    parseInline: PropTypes.bool,
+    markdownStyles: PropTypes.object,
+    useDefaultStyles: PropTypes.bool,
+    renderImage: PropTypes.func,
+    renderLink: PropTypes.func,
+    renderListBullet: PropTypes.func,
+};
+
+Markdown.defaultProps = {
+    debug: false,
+    useDefaultStyles: true,
+    parseInline: false,
+    markdownStyles: {}
+};
 
 export default Markdown;

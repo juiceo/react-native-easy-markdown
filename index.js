@@ -207,7 +207,7 @@ class Markdown extends Component {
         else {
             return (
                 <View key={'block_' + key} style={styles.block}>
-                    {nodes}
+                    <Text>{nodes}</Text>
                 </View>
             );
         }

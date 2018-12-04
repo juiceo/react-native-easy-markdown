@@ -17,7 +17,7 @@ const Utils = {
     //     return true;
     // }
 
-    concatStyles: concatStyles(extras, newStyle) {
+    concatStyles: function concatStyles(extras, newStyle) {
         let newExtras;
         if (extras) {
             newExtras = JSON.parse(JSON.stringify(extras));
@@ -35,7 +35,7 @@ const Utils = {
         return newExtras;
     },
 
-    logDebug: logDebug(nodeTree, level = 0) {
+    logDebug: function logDebug(nodeTree, level = 0) {
         for (let i = 0; i < nodeTree.length; i++) {
             const node = nodeTree[i];
 

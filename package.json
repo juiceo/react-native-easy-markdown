@@ -5,6 +5,8 @@
     "main": "index.js",
     "repository": "https://github.com/TitanInvest/react-native-easy-markdown",
     "scripts": {
+        "build": "babel index.js styles.js Utils.js -d lib",
+        "prepare": "npm run build",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [
@@ -21,5 +23,9 @@
     },
     "peerDependencies": {
         "react-native": "*"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-preset-react-native": "^4.0.1"
     }
 }

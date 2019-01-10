@@ -52,6 +52,11 @@ const defaultStyles = {
     strong: {
         fontWeight: 'bold',
     },
+    strongLink: {
+        fontWeight: 'bold',
+        textDecorationLine: 'underline',
+        alignSelf: 'flex-start'
+    },
     em: {
         fontStyle: 'italic',
     },

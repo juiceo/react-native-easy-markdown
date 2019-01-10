@@ -176,6 +176,25 @@ class Markdown extends Component {
         );
     }
 
+    renderStrongLink(node, key) {
+        const { styles } = this.state;
+        let extras = Utils.concatStyles(null, styles.strongLink);
+        
+        // remove the empty spaces (" ") which is the result of the bold markdown charactes from node's children
+        for (const i = 0; i < node.props.children.length; i++) {
+            if (node.props.children[i] === " ") {
+                delete node.props.children[i];
+            }
+        }
+        let children = this.renderNodes(node.props.children, key, extras);
+
+        return (
+            <TouchableOpacity style={styles.linkWrapper} key={'linkWrapper_' + key} onPress={() => Linking.openURL(node.props.href).catch(() => { })}>
+                {children}
+            </TouchableOpacity>
+        );
+    }
+
     renderBlockQuote(node, key, extras) {
         extras = extras ? Object.assign(extras, { blockQuote: true }) : { blockQuote: true };
         return this.renderBlock(node, key, extras);
@@ -218,6 +237,16 @@ class Markdown extends Component {
             return null;
         }
 
+        // check when a strong node hides a link inside
+        if (node.type === 'strong' && typeof(node.props.children) === 'object' && node.props.children.length > 0) {
+            for (const i = 0; i < node.props.children.length; i++) {
+                // check for the link
+                if (children[i].type && children[i].type === 'a') {
+                    node.type = 'stronga';
+                }
+            }
+        }
+
         const { styles } = this.state;
 
 
@@ -236,7 +265,8 @@ class Markdown extends Component {
             case 'a': return this.renderLink(node, key);
             case 'img': return this.renderImage(node, key);
             case 'strong': return this.renderText(node, key, Utils.concatStyles(extras, styles.strong));
-            case 'del': return this.renderText(node, key, Utils.concatStyles(extras, styles.del));
+            case 'stronga': return this.renderStrongLink(node, key, Utils.concatStyles(extras, styles.strong));
+            case 'del': return this.renderText(this.renderLink(node, key), key, Utils.concatStyles(extras, styles.del));
             case 'em': return this.renderText(node, key, Utils.concatStyles(extras, styles.em));
             case 'u': return this.renderText(node, key, Utils.concatStyles(extras, styles.u));
             case 'blockquote': return this.renderBlockQuote(node, key);

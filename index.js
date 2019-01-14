@@ -190,10 +190,7 @@ class Markdown extends Component {
         else {
             return (
                 <View key={'block_' + key} style={styles.block}>
-                    {/* If you want to set a text only property, like textAlign, we must wrap it twice.*/}
-                    <Text style={styles.text}>
-                        <Text style={styles.text}>{nodes}</Text>
-                    </Text>
+                    {nodes}
                 </View>
             );
         }

@@ -190,7 +190,11 @@ class Markdown extends Component {
             } else {
                 return(
                     <Text key={'block_' + key} style={styles.block}>
-                        {nodes}
+                        <Text style={styles.text}>
+                            <Text style={styles.text}>
+                                {nodes}
+                            </Text>
+                        </Text>
                     </Text>
                 );
             }

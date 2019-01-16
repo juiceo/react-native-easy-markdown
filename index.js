@@ -179,26 +179,15 @@ class Markdown extends Component {
         }
         const nodes = this.renderNodes(node.props.children, key, extras);
 
-        if (Utils.isTextOnly(nodes)) {
-            if (isBlockQuote) {
-                style.push(styles.blockQuote)
-                return(
-                    <View key={'blockQuote_' + key} style={[styles.block, styles.blockQuote]}>
-                        <Text>{nodes}</Text>
-                    </View>
-                );
-            } else {
-                return(
-                    <Text key={'block_' + key} style={styles.block}>
-                        <Text style={styles.text}>
-                            <Text style={styles.text}>
-                                {nodes}
-                            </Text>
-                        </Text>
-                    </Text>
-                );
-            }
-        } else {
+        if (isBlockQuote) {
+            style.push(styles.blockQuote)
+            return (
+                <View key={'blockQuote_' + key} style={[styles.block, styles.blockQuote]}>
+                    <Text>{nodes}</Text>
+                </View>
+            );
+        }
+        else {
             return (
                 <View key={'block_' + key} style={styles.block}>
                     {nodes}

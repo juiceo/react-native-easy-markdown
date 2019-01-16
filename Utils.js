@@ -7,12 +7,14 @@ const Utils = {
                     nodes[i].hasOwnProperty('type') &&
                     nodes[i].type.hasOwnProperty('displayName')) {
                     if (nodes[i].type.displayName !== 'Text') {
+                        console.log('returning false', nodes[i].type.displayName)
                         return false;
                     }
                 }
 
             }
         }
+        console.log('returning true');
         return true;
     },
 

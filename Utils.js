@@ -1,5 +1,6 @@
 const Utils = {
     isTextOnly(nodes) {
+        console.log('isTextOnly', nodes);
         if (nodes.length) {
             for (let i = 0; i < nodes.length; i++) {
                 if (nodes[i] &&

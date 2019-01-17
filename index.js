@@ -187,6 +187,11 @@ class Markdown extends Component {
                 </View>
             );
         }
+        else if (Utils.isTextOnly(nodes)) {
+            return (
+                <Text key={`block_text_` + key} style={styles.block}>{nodes}</Text>
+            );
+        }
         else {
             return (
                 <View key={'block_' + key} style={styles.block}>

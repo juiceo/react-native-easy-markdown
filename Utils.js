@@ -1,20 +1,30 @@
 const Utils = {
     isTextOnly(nodes) {
-        console.log('isTextOnly', nodes);
-        if (nodes.length) {
-            for (let i = 0; i < nodes.length; i++) {
-                if (nodes[i] &&
-                    nodes[i].hasOwnProperty('type') &&
-                    nodes[i].type.hasOwnProperty('displayName')) {
-                    if (nodes[i].type.displayName !== 'Text') {
-                        console.log('returning false', nodes[i].type.displayName)
+        try {
+            if (nodes.length) {
+                for (let i = 0; i < nodes.length; i++) {
+                    if (nodes[i] &&
+                        typeof nodes[i].hasOwnProperty === 'function' &&
+                        nodes[i].hasOwnProperty('type') &&
+                        typeof nodes[i].type.hasOwnProperty === 'function' &&
+                        (
+                            nodes[i].type.hasOwnProperty('displayName') ||
+                            nodes[i].type.hasOwnProperty('name')
+                        )
+                    ) {
+                        if (nodes[i].type.displayName !== 'Text' && nodes[i].type.name !== 'Text') {
+                            return false;
+                        }
+                    } else {
                         return false;
                     }
                 }
-
             }
+        } catch(e) {
+            return false;
         }
-        console.log('returning true');
+
+        // It's a miracle, I guess we're text only
         return true;
     },
 

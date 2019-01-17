@@ -113,12 +113,14 @@ class Markdown extends Component {
 
         let children = this.renderNodes(node.props.children, key, extras);
 
+        const ItemWrapper = Utils.isTextOnly(children) ? Text : View;
+
         return (
             <View style={styles.listItem} key={'listItem_' + key}>
                 {this.props.renderListBullet ? this.props.renderListBullet(extras.ordered, index) : this.renderListBullet(extras.ordered, index)}
-                <View key={'listItemContent_' + key} style={styles.listItemContent}>
+                <ItemWrapper key={'listItemContent_' + key} style={styles.listItemContent}>
                     {children}
-                </View>
+                </ItemWrapper>
             </View>
         );
     }

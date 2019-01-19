@@ -79,6 +79,7 @@ const defaultStyles = {
     },
     listItemContent: {
         flexDirection: 'row',
+        flexShrink: 1,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
     },

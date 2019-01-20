@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import {
-    TouchableWithoutFeedback,
+    TouchableOpacity,
     Text,
     View,
     Image,
@@ -162,10 +162,12 @@ class Markdown extends Component {
             return this.props.renderLink(node.props.href, node.props.title, children);
         }
 
+        const SafeWrapper = Utils.isTextOnly(children) ? Text : TouchableOpacity;
+
         return (
-            <TouchableWithoutFeedback style={styles.linkWrapper} key={'linkWrapper_' + key} onPress={() => Linking.openURL(node.props.href).catch(() => { })}>
+            <SafeWrapper style={styles.linkWrapper} key={'linkWrapper_' + key} onPress={() => Linking.openURL(node.props.href).catch(() => { })}>
                 {children}
-            </TouchableWithoutFeedback>
+            </SafeWrapper>
         );
     }
 

@@ -2,7 +2,7 @@ const Utils = {
 
     // Make sure every node is of text type
     // If we don't know how to identify a node, assume it is not text
-    isTextOnly(nodes) {
+    isTextOnly: function isTextOnly(nodes) {
         try {
             if (nodes.length) {
                 for (let i = 0; i < nodes.length; i++) {

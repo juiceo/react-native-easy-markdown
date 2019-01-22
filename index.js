@@ -113,14 +113,14 @@ class Markdown extends Component {
 
         let children = this.renderNodes(node.props.children, key, extras);
 
-        const ItemWrapper = Utils.isTextOnly(children) ? Text : View;
+        const SafeWrapper = Utils.isTextOnly(children) ? Text : View;
 
         return (
             <View style={styles.listItem} key={'listItem_' + key}>
                 {this.props.renderListBullet ? this.props.renderListBullet(extras.ordered, index) : this.renderListBullet(extras.ordered, index)}
-                <ItemWrapper key={'listItemContent_' + key} style={styles.listItemContent}>
+                <SafeWrapper key={'listItemContent_' + key} style={styles.listItemContent}>
                     {children}
-                </ItemWrapper>
+                </SafeWrapper>
             </View>
         );
     }
@@ -154,10 +154,12 @@ class Markdown extends Component {
             return this.props.renderLink(node.props.href, node.props.title, children);
         }
 
+        const SafeWrapper = Utils.isTextOnly(children) ? Text : TouchableOpacity;
+
         return (
-            <TouchableOpacity style={styles.linkWrapper} key={'linkWrapper_' + key} onPress={() => Linking.openURL(node.props.href).catch(() => { })}>
+            <SafeWrapper style={styles.linkWrapper} key={'linkWrapper_' + key} onPress={() => Linking.openURL(node.props.href).catch(() => { })}>
                 {children}
-            </TouchableOpacity>
+            </SafeWrapper>
         );
     }
 

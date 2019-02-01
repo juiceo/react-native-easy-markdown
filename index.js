@@ -241,7 +241,7 @@ class Markdown extends Component {
         if (node.type === 'strong' && typeof(node.props.children) === 'object' && node.props.children.length > 0) {
             for (let i = 0; i < node.props.children.length; i++) {
                 // check for the link
-                if (children[i].type && children[i].type === 'a') {
+                if (node.props.children[i].type && node.props.children[i].type === 'a') {
                     node.type = 'stronga';
                 }
             }

@@ -181,7 +181,7 @@ class Markdown extends Component {
         let extras = Utils.concatStyles(null, styles.strongLink);
         
         // remove the empty spaces (" ") which is the result of the bold markdown charactes from node's children
-        for (const i = 0; i < node.props.children.length; i++) {
+        for (let i = 0; i < node.props.children.length; i++) {
             if (node.props.children[i] === " ") {
                 delete node.props.children[i];
             }
@@ -239,7 +239,7 @@ class Markdown extends Component {
 
         // check when a strong node hides a link inside
         if (node.type === 'strong' && typeof(node.props.children) === 'object' && node.props.children.length > 0) {
-            for (const i = 0; i < node.props.children.length; i++) {
+            for (let i = 0; i < node.props.children.length; i++) {
                 // check for the link
                 if (children[i].type && children[i].type === 'a') {
                     node.type = 'stronga';

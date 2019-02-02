@@ -1,3 +1,13 @@
+# This repository has been DEPRECATED in favor of https://github.com/TitanInvest/react-native-easy-markdown
+I personally no longer have time/interest to maintain this library, for the simple reason that I am not using markdown in any of the projects I am currently (and for the foreseeable future) working on. This has probably been quite apparent in the lack of updates to the project recently, as well as sluggish response times to issues. Thank you to everyone who has contributed to the project thus far by way of PRs or issues, your work is much appreciated :)
+
+**Gladly, the library will live on and prosper.** **@zivester** has been working on a fork of the project which is rather far ahead of this repository and has already fixed many of the issues that have been reported here. There are also plans to improve the library further with e.g. support for TypeScript. 
+
+What this means: 
+* Feel free to continue using `react-native-easy-markdown`, future changes will be published under the same npm package name
+* This repository contains version `1.2.0` of the library, and any version updates on npm thereafter will be based on the new repository
+* Issues & PRs: I will no longer be merging PRs or responding to issues in this repository. If you've already posted an issue or PR, I would urge you to see if the issue has been fixed in @zivester's fork. If not, he would likely appreciate your contributions in the [new repository](https://github.com/TitanInvest/react-native-easy-markdown)
+
 # React Native Easy Markdown
 React Native Easy Markdown is a simple React Native component for rendering [Markdown](https://help.github.com/articles/getting-started-with-writing-and-formatting-on-github/) as native components, and it works equally well on both Android and iOS.
 

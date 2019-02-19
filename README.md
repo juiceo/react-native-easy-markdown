@@ -114,7 +114,7 @@ You can supply the component with your own ```markdownStyles``` prop to override
 | imageWrapper    | `<View/>`             | Wrapper around images, for easier layouting            |
 | image           | `<Image/>`            | Image component                                        |
 
-See [default styles](https://github.com/lappalj4/react-native-easy-markdown/blob/master/styles.js) for reference.
+See [default styles](https://github.com/TitanInvest/react-native-easy-markdown/blob/master/styles.js) for reference.
 
 # Caveats
 
@@ -123,6 +123,10 @@ See [default styles](https://github.com/lappalj4/react-native-easy-markdown/blob
 
 # Change Log
 
+**1.3.0**
+* Fix text wrapping unexpectedly
+* Bring back Utils.isTextOnly to prevent Views nested in Texts
+* New maintainer: TitanInvest
 
 **1.2.0**
 * Fixed crash on RN > 0.55 (#17)
@@ -178,7 +182,7 @@ Possible features to implement:
 
 # License (MIT)
 
-Copyright 2017 Juuso Lappalainen
+Copyright 2019 Juuso Lappalainen, Zach Ivester
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

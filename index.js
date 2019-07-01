@@ -160,17 +160,36 @@ class Markdown extends Component {
     }
 
     renderLink(node, key) {
-
+        const { href } = node.props;
+        let onPress;
         const { styles } = this.state;
         let extras = Utils.concatStyles(null, styles.link);
         let children = this.renderNodes(node.props.children, key, extras);
 
-        if (this.props.renderLink) {
-            return this.props.renderLink(node.props.href, node.props.title, children);
+        if (/^http/.test(href)) {
+            onPress = () => Linking.openURL(node.props.href).catch(() => { });
+
+            if (this.props.renderLink) {
+                return this.props.renderLink(node.props.href, node.props.title, children);
+            }
+        } else {
+            const deepLinkedScreen = href.split('?')[0];
+            const actualScreen = deepLinkedScreen.split('://')[1];
+            
+            let deepLinkExtras;
+            const extraData = href.split('?')[1];
+            if (extraData) {
+                const key = extraData.split('=')[0];
+                const value = extraData.split('=')[1];
+                deepLinkExtras = {};
+                deepLinkExtras[key] = value;
+            }
+
+            onPress = () => this.props.onPress(this.props.componentId, actualScreen, deepLinkExtras);
         }
 
         return (
-            <TouchableOpacity style={styles.linkWrapper} key={'linkWrapper_' + key} onPress={() => Linking.openURL(node.props.href).catch(() => { })}>
+            <TouchableOpacity style={styles.linkWrapper} key={'linkWrapper_' + key} onPress={onPress}>
                 {children}
             </TouchableOpacity>
         );

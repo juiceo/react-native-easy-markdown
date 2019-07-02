@@ -160,14 +160,52 @@ class Markdown extends Component {
     }
 
     renderLink(node, key) {
-
+        const { href } = node.props;
+        let onPress;
         const { styles } = this.state;
         let extras = Utils.concatStyles(null, styles.link);
         let children = this.renderNodes(node.props.children, key, extras);
 
-        if (this.props.renderLink) {
-            return this.props.renderLink(node.props.href, node.props.title, children);
+        if (/^http/.test(href)) {
+            onPress = () => Linking.openURL(node.props.href).catch(() => { });
+
+            if (this.props.renderLink) {
+                return this.props.renderLink(node.props.href, node.props.title, children);
+            }
+        } else {
+            const deepLinkedScreen = href.split('?')[0];
+            const actualScreen = deepLinkedScreen.split('://')[1];
+            
+            let deepLinkExtras;
+            const extraData = href.split('?')[1];
+            if (extraData) {
+                const key = extraData.split('=')[0];
+                const value = extraData.split('=')[1];
+                deepLinkExtras = {};
+                deepLinkExtras[key] = value;
+            }
+
+            onPress = () => this.props.onPress(this.props.componentId, actualScreen, deepLinkExtras);
         }
+
+        return (
+            <TouchableOpacity style={styles.linkWrapper} key={'linkWrapper_' + key} onPress={onPress}>
+                {children}
+            </TouchableOpacity>
+        );
+    }
+
+    renderStrongLink(node, key) {
+        const { styles } = this.state;
+        let extras = Utils.concatStyles(null, styles.strongLink);
+        
+        // remove the empty spaces (" ") which is the result of the bold markdown charactes from node's children
+        for (let i = 0; i < node.props.children.length; i++) {
+            if (node.props.children[i] === " ") {
+                delete node.props.children[i];
+            }
+        }
+        let children = this.renderNodes(node.props.children, key, extras);
 
         return (
             <TouchableOpacity style={styles.linkWrapper} key={'linkWrapper_' + key} onPress={() => Linking.openURL(node.props.href).catch(() => { })}>
@@ -218,6 +256,16 @@ class Markdown extends Component {
             return null;
         }
 
+        // check when a strong node hides a link inside
+        if (node.type === 'strong' && typeof(node.props.children) === 'object' && node.props.children.length > 0) {
+            for (let i = 0; i < node.props.children.length; i++) {
+                // check for the link
+                if (node.props.children[i].type && node.props.children[i].type === 'a') {
+                    node.type = 'stronga';
+                }
+            }
+        }
+
         const { styles } = this.state;
 
 
@@ -236,7 +284,8 @@ class Markdown extends Component {
             case 'a': return this.renderLink(node, key);
             case 'img': return this.renderImage(node, key);
             case 'strong': return this.renderText(node, key, Utils.concatStyles(extras, styles.strong));
-            case 'del': return this.renderText(node, key, Utils.concatStyles(extras, styles.del));
+            case 'stronga': return this.renderStrongLink(node, key, Utils.concatStyles(extras, styles.strong));
+            case 'del': return this.renderText(this.renderLink(node, key), key, Utils.concatStyles(extras, styles.del));
             case 'em': return this.renderText(node, key, Utils.concatStyles(extras, styles.em));
             case 'u': return this.renderText(node, key, Utils.concatStyles(extras, styles.u));
             case 'blockquote': return this.renderBlockQuote(node, key);

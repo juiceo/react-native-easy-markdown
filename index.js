@@ -25,7 +25,7 @@ class Markdown extends Component {
         const outputResult = this.reactOutput(parseTree);
 
         const defaultStyles = this.props.useDefaultStyles && styles ? styles : {};
-        const _styles = StyleSheet.create(Object.assign(defaultStyles, this.props.markdownStyles));
+        const _styles = StyleSheet.create(Object.assign({}, defaultStyles, this.props.markdownStyles));
 
         this.state = {
             syntaxTree: outputResult,

@@ -123,6 +123,12 @@ See [default styles](https://github.com/TitanInvest/react-native-easy-markdown/b
 
 # Change Log
 
+**1.4.1**
+* Fix an unexpected mutation of default styles when specifying `markdownStyles`
+
+**1.4.0**
+* Update simple-markdown dependency to `0.4.4` for XSS vulnerability
+
 **1.3.0**
 * Fix text wrapping unexpectedly
 * Bring back Utils.isTextOnly to prevent Views nested in Texts

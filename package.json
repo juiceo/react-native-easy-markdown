@@ -1,6 +1,6 @@
 {
     "name": "react-native-easy-markdown",
-    "version": "1.4.1",
+    "version": "1.5.0",
     "description": "Simple & customizable React Native component to render Github-flavoured markdown using minimal native components.",
     "main": "lib/index.js",
     "repository": "https://github.com/TitanInvest/react-native-easy-markdown",

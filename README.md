@@ -123,6 +123,9 @@ See [default styles](https://github.com/TitanInvest/react-native-easy-markdown/b
 
 # Change Log
 
+**1.5.0**
+* Add typescript definitions
+
 **1.4.1**
 * Fix an unexpected mutation of default styles when specifying `markdownStyles`
 

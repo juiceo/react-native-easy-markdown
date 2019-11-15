@@ -63,7 +63,14 @@ render() {
 | `style`            | Style for the ```<Markdown/>``` component                                                                                                                                                                               | object   | {}            |
 | `renderImage`      | Custom renderer for images                                                                                                                                                                                              | function | none          |
 | `renderLink`       | Custom renderer for links                                                                                                                                                                                               | function | none          |
-| `renderListBullet` | Custom rendered for list bullets                                                                                                                                                                                        | function | none          |
+| `renderListBullet` | Custom renderer for list bullets                                                                                                                                                                                        | function | none          |
+| `renderLine`       | Custom renderer for Line                                                                                                                                                                                                | function | none          |
+| `renderList`       | Custom renderer for list                                                                                                                                                                                                | function | none          |
+| `renderListItem`   | Custom renderer for list item                                                                                                                                                                                           | function | none          |
+| `renderBlockQuote` | Custom renderer for Block Quote                                                                                                                                                                                         | function | none          |
+| `renderBlockText`  | Custom renderer for Block Text                                                                                                                                                                                          | function | none          |
+| `renderBlock`      | Custom renderer for Block                                                                                                                                                                                               | function | none          |
+| `renderText`       | Custom renderer for various types of text                                                                                                                                                                               | function | none          |
 
 If you need more control over how some of the components are rendered, you may provide the custom renderers outlined above like so:
 
@@ -87,6 +94,47 @@ renderListBullet(ordered, index) {
         <View style={{width: 20, height: 20, backgroundColor: 'red}}/>
     );
 }
+
+renderList(ordered, children) {
+    return (
+        <View style={ ordered ? { borderLeftWidth: 1, borderColor: 'grey' } : {} }>
+            { children }
+        </View>
+    )
+}
+
+renderListItem(index, key, ordered, children) {
+    return (
+        <View key={key}>{ ordered && `${index}. `}{ children }</View>
+    );
+}
+
+renderText(textType, node) {
+    // Possible textTypes: h1, h2, h3, h4, h5, h6, strong, del, em, u 
+    switch (textType) {
+        case 'h1'
+        case 'h2'
+        case 'h3'
+        case 'h4'
+        case 'h5'
+        case 'h6':
+            return <MyHeader>{node}</MyHeader>
+        case 'strong':
+            return <MyHighlightedText>{node}</MyHighlightedText>
+        case 'del':
+            return <MyStrikethrough>{node}</MyStrikethrough>
+        case 'em':
+            return <MyEm>{node}</MyEm>
+        case 'u:
+            return <MyUnderline>{node}</MyUnderline>
+        default:
+            return <Text style={myTextStyle}>{node}</Text>
+    }
+}
+
+renderBlockQuote
+renderBlock
+renderBlockText
 ```
 
 Notice the `children` parameter passed to `renderLink`, which contains whatever children would otherwise be rendered within the link. In the default implementation, those children will be rendered within a `<TouchableOpacity/>` but this gives you the possibility to provide your own touchable component.

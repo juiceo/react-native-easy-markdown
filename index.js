@@ -76,6 +76,10 @@ class Markdown extends Component {
     renderLine(node, key) {
         const { styles } = this.state;
 
+        if (this.props.renderLine) {
+            return this.props.renderLine();
+        }
+
         return (
             <View style={styles.hr} key={'hr_' + key} />
         );
@@ -84,6 +88,11 @@ class Markdown extends Component {
     renderList(node, key, ordered) {
 
         const { styles } = this.state;
+
+        if (this.props.renderList) {
+            const children = node.props.children.map((node) => this.renderNodes(node, key, { ordered }));
+            return this.props.renderList(ordered, children);
+        }
 
         return (
             <View key={'list_' + key} style={styles.list}>
@@ -113,6 +122,11 @@ class Markdown extends Component {
 
         let children = this.renderNodes(node.props.children, key, extras);
 
+        if (this.props.renderListItem) {
+            // Unsure if the consuming function should make its own keys and indexes in their list?
+            return this.props.renderListItem(index, key, ordered, children);
+        }
+
         const SafeWrapper = Utils.isTextOnly(children) ? Text : View;
 
         return (
@@ -125,19 +139,23 @@ class Markdown extends Component {
         );
     }
 
-    renderText(node, key, extras) {
+    renderText(node, key, extras, textType) {
 
         const { styles } = this.state;
 
         let style = (extras && extras.style) ? [styles.text].concat(extras.style) : styles.text;
 
         if (node.props) {
+            // Hmm
             return (
                 <Text key={key} style={style}>
                     {this.renderNodes(node.props.children, key, extras)}
                 </Text>
             );
         } else {
+            if (this.props.renderText) {
+                return this.props.renderText(node, textType)
+            }
             return (
                 <Text key={key} style={style}>{node}</Text>
             );
@@ -181,25 +199,34 @@ class Markdown extends Component {
              */
             delete extras.blockQuote;
         }
-        const nodes = this.renderNodes(node.props.children, key, extras);
+        const children = this.renderNodes(node.props.children, key, extras);
 
         if (isBlockQuote) {
             style.push(styles.blockQuote)
+            if (this.props.renderBlockQuote) {
+                return this.props.renderBlockQuote(children)
+            }
             return (
                 <View key={'blockQuote_' + key} style={[styles.block, styles.blockQuote]}>
-                    <Text>{nodes}</Text>
+                    <Text>{children}</Text>
                 </View>
             );
         }
-        else if (Utils.isTextOnly(nodes)) {
+        else if (Utils.isTextOnly(children)) {
+            if (this.props.renderBlockText) {
+                return this.props.renderBlockText(children)
+            }
             return (
-                <Text key={`block_text_` + key} style={styles.block}>{nodes}</Text>
+                <Text key={`block_text_` + key} style={styles.block}>{children}</Text>
             );
         }
         else {
+            if (this.props.renderBlock) {
+                return this.props.renderBlock(children);
+            }
             return (
                 <View key={'block_' + key} style={styles.block}>
-                    {nodes}
+                    {children}
                 </View>
             );
         }
@@ -214,12 +241,12 @@ class Markdown extends Component {
 
 
         switch (node.type) {
-            case 'h1': return this.renderText(node, key, Utils.concatStyles(extras, styles.h1));
-            case 'h2': return this.renderText(node, key, Utils.concatStyles(extras, styles.h2));
-            case 'h3': return this.renderText(node, key, Utils.concatStyles(extras, styles.h3));
-            case 'h4': return this.renderText(node, key, Utils.concatStyles(extras, styles.h4))
-            case 'h5': return this.renderText(node, key, Utils.concatStyles(extras, styles.h5));
-            case 'h6': return this.renderText(node, key, Utils.concatStyles(extras, styles.h6));
+            case 'h1': return this.renderText(node, key, Utils.concatStyles(extras, styles.h1), 'h1' );
+            case 'h2': return this.renderText(node, key, Utils.concatStyles(extras, styles.h2), 'h2' );
+            case 'h3': return this.renderText(node, key, Utils.concatStyles(extras, styles.h3), 'h3' );
+            case 'h4': return this.renderText(node, key, Utils.concatStyles(extras, styles.h4), 'h4' );
+            case 'h5': return this.renderText(node, key, Utils.concatStyles(extras, styles.h5), 'h5' );
+            case 'h6': return this.renderText(node, key, Utils.concatStyles(extras, styles.h6), 'h6' );
             case 'hr': return this.renderLine(node, key);
             case 'div': return this.renderBlock(node, key, extras);
             case 'ul': return this.renderList(node, key, false);
@@ -227,10 +254,10 @@ class Markdown extends Component {
             case 'li': return this.renderListItem(node, key, index, extras);
             case 'a': return this.renderLink(node, key);
             case 'img': return this.renderImage(node, key);
-            case 'strong': return this.renderText(node, key, Utils.concatStyles(extras, styles.strong));
-            case 'del': return this.renderText(node, key, Utils.concatStyles(extras, styles.del));
-            case 'em': return this.renderText(node, key, Utils.concatStyles(extras, styles.em));
-            case 'u': return this.renderText(node, key, Utils.concatStyles(extras, styles.u));
+            case 'strong': return this.renderText(node, key, Utils.concatStyles(extras, styles.strong), 'strong');
+            case 'del': return this.renderText(node, key, Utils.concatStyles(extras, styles.del), 'del');
+            case 'em': return this.renderText(node, key, Utils.concatStyles(extras, styles.em), 'em');
+            case 'u': return this.renderText(node, key, Utils.concatStyles(extras, styles.u), 'u');
             case 'blockquote': return this.renderBlockQuote(node, key);
             case undefined: return this.renderText(node, key, extras);
             default: if (this.props.debug) console.log('Node type ' + node.type + ' is not supported'); return null;
@@ -268,6 +295,13 @@ Markdown.propTypes = {
     renderImage: PropTypes.func,
     renderLink: PropTypes.func,
     renderListBullet: PropTypes.func,
+    renderLine: PropTypes.func,
+    renderList: PropTypes.func,
+    renderListItem: PropTypes.func,
+    renderText: PropTypes.func,
+    renderBlockQuote: PropTypes.func,
+    renderBlockText: PropTypes.func,
+    renderBlock: PropTypes.func,
 };
 
 Markdown.defaultProps = {

@@ -73,30 +73,77 @@ render() {
 | `style`            | Style for the ```<Markdown/>``` component                                                                                                                                                                               | object   | {}            |
 | `renderImage`      | Custom renderer for images                                                                                                                                                                                              | function | none          |
 | `renderLink`       | Custom renderer for links                                                                                                                                                                                               | function | none          |
-| `renderListBullet` | Custom rendered for list bullets                                                                                                                                                                                        | function | none          |
+| `renderListBullet` | Custom renderer for list bullets                                                                                                                                                                                        | function | none          |
+| `renderLine`       | Custom renderer for Line                                                                                                                                                                                                | function | none          |
+| `renderList`       | Custom renderer for list                                                                                                                                                                                                | function | none          |
+| `renderListItem`   | Custom renderer for list item                                                                                                                                                                                           | function | none          |
+| `renderBlockQuote` | Custom renderer for Block Quote                                                                                                                                                                                         | function | none          |
+| `renderBlockText`  | Custom renderer for Block Text                                                                                                                                                                                          | function | none          |
+| `renderBlock`      | Custom renderer for Block                                                                                                                                                                                               | function | none          |
+| `renderText`       | Custom renderer for various types of text                                                                                                                                                                               | function | none          |
 
-If you need more control over how some of the components are rendered, you may provide the custom renderers outlined above like so:
+If you need more control over how some of the components are rendered, you may provide the custom renderers outlined above like so.
+
+Beware, these functions are experimental in nature and may not work well for all use cases. These are barebones functions that give you the needed information from markdown and allow you to choose what to render. 
+
+In all cases, the 'children' argument refers to markdown nodes that have already been converted to JSX.Elements through the default or custom renderers. 
+
+If using custom renders, no style logic is applied. You may opt in to any custom renderers by passing functions that match the below signatures, and it not present, `<Markdown>` will refer to your custom/default styles and the default legacy implementation.
 
 ```
-renderImage(src, alt, title) {
-    return(
-        <MyImageComponent source={{uri: src}}/>
-    );
+renderImage(src, alt, title, key) 
+
+renderLink(href, title, children, key)
+
+// `ordered: true` signifies this is the bullet point of a list ordered by index
+renderListBullet(ordered, index)
+
+// Responsible for the containing List element, children are the elements that represent the list items
+renderList(ordered, children, key) 
+
+// Line break custom renderer
+renderLine(key) 
+
+// example usage
+renderListItem(index, ordered, children, key) {
+    if (!ordered) {
+      return <ListItem.Bullet key={key}>{ children }</ListItem.Bullet>;
+    } else {
+      return <ListItem.Numbered number={index + 1} key={key}>{ children }</ListItem.Numbered>
+    }
 }
 
-renderLink(href, title, children) {
-    return(
-        <MyTouchableThing onPress={() => console.log("Opening link: " + href)}>
-            {children}
-        </MyTouchableThing>
-    );
+renderText(textType, children: React.Element | React.ReactElement[], , key) {
+    // Possible textTypes: h1, h2, h3, h4, h5, h6, strong, del, em, u 
+    switch (textType) {
+        case 'h1'
+        case 'h2'
+        case 'h3'
+        case 'h4'
+        case 'h5'
+        case 'h6':
+            return <MyHeader>{children}</MyHeader>
+        case 'strong':
+            return <MyHighlightedText>{children}</MyHighlightedText>
+        case 'del':
+            return <MyStrikethrough>{children}</MyStrikethrough>
+        case 'em':
+            return <MyEm>{children}</MyEm>
+        case 'u:
+            return <MyUnderline>{children}</MyUnderline>
+        default:
+            return <Text style={myTextStyle}>{children}</Text>
+    }
 }
 
-renderListBullet(ordered, index) {
-    return(
-        <View style={{width: 20, height: 20, backgroundColor: 'red}}/>
-    );
-}
+// Responsible for rendering the block container as well as the children
+renderBlockQuote(children, key)
+
+// Responsible for rendering the block container as well as the children
+renderBlock(children, key)
+
+// Responsible for any block that will only contain text elements below
+renderBlockText(children, key) 
 ```
 
 Notice the `children` parameter passed to `renderLink`, which contains whatever children would otherwise be rendered within the link. In the default implementation, those children will be rendered within a `<TouchableOpacity/>` but this gives you the possibility to provide your own touchable component.
@@ -124,7 +171,7 @@ You can supply the component with your own ```markdownStyles``` prop to override
 | imageWrapper    | `<View/>`             | Wrapper around images, for easier layouting            |
 | image           | `<Image/>`            | Image component                                        |
 
-See [default styles](https://github.com/lappalj4/react-native-easy-markdown/blob/master/styles.js) for reference.
+See [default styles](https://github.com/TitanInvest/react-native-easy-markdown/blob/master/styles.js) for reference.
 
 # Caveats
 
@@ -133,6 +180,22 @@ See [default styles](https://github.com/lappalj4/react-native-easy-markdown/blob
 
 # Change Log
 
+**2.0.0**
+* Add ability to pass custom renderers for various markdown components.
+
+**1.5.0**
+* Add typescript definitions
+
+**1.4.1**
+* Fix an unexpected mutation of default styles when specifying `markdownStyles`
+
+**1.4.0**
+* Update simple-markdown dependency to `0.4.4` for XSS vulnerability
+
+**1.3.0**
+* Fix text wrapping unexpectedly
+* Bring back Utils.isTextOnly to prevent Views nested in Texts
+* New maintainer: TitanInvest
 
 **1.2.0**
 * Fixed crash on RN > 0.55 (#17)
@@ -188,7 +251,7 @@ Possible features to implement:
 
 # License (MIT)
 
-Copyright 2017 Juuso Lappalainen
+Copyright 2019 Juuso Lappalainen, Zach Ivester
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

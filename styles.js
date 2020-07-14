@@ -46,6 +46,10 @@ const defaultStyles = {
         backgroundColor: '#333333',
         marginVertical: 8,
     },
+    code: {
+        backgroundColor: '#333333',
+        color: 'orange',
+    },
     text: {
         alignSelf: 'flex-start'
     },
@@ -79,6 +83,7 @@ const defaultStyles = {
     },
     listItemContent: {
         flexDirection: 'row',
+        flexShrink: 1,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
     },

@@ -1,24 +1,34 @@
-class Utils {
+const Utils = {
+    isTextOnly(nodes) {
+        try {
+            if (nodes.length) {
+                for (let i = 0; i < nodes.length; i++) {
+                    if (nodes[i] &&
+                        typeof nodes[i].hasOwnProperty === 'function' &&
+                        nodes[i].hasOwnProperty('type') &&
+                        typeof nodes[i].type.hasOwnProperty === 'function' &&
+                        (
+                            nodes[i].type.hasOwnProperty('displayName') ||
+                            nodes[i].type.hasOwnProperty('name')
+                        )
+                    ) {
+                        if (nodes[i].type.displayName !== 'Text' && nodes[i].type.name !== 'Text') {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        } catch(e) {
+            return false;
+        }
 
-    // Was causing crashes with RN > 0.55, removed for now.
-    // 
-    // static isTextOnly(nodes) {
-    //     if (nodes.length) {
-    //         for (let i = 0; i < nodes.length; i++) {
-    //             if (nodes[i] &&
-    //                 nodes[i].hasOwnProperty('type') &&
-    //                 nodes[i].type.hasOwnProperty('displayName')) {
-    //                 if (nodes[i].type.displayName !== 'Text') {
-    //                     return false;
-    //                 }
-    //             }
+        // It's a miracle, I guess we're text only
+        return true;
+    },
 
-    //         }
-    //     }
-    //     return true;
-    // }
-
-    static concatStyles(extras, newStyle) {
+    concatStyles: function concatStyles(extras, newStyle) {
         let newExtras;
         if (extras) {
             newExtras = JSON.parse(JSON.stringify(extras));
@@ -34,9 +44,9 @@ class Utils {
             };
         }
         return newExtras;
-    }
+    },
 
-    static logDebug(nodeTree, level = 0) {
+    logDebug: function logDebug(nodeTree, level = 0) {
         for (let i = 0; i < nodeTree.length; i++) {
             const node = nodeTree[i];
 

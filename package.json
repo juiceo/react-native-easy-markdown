@@ -1,10 +1,12 @@
 {
     "name": "react-native-easy-markdown",
-    "version": "1.2.0",
+    "version": "2.0.0",
     "description": "Simple & customizable React Native component to render Github-flavoured markdown using minimal native components.",
-    "main": "index.js",
-    "repository": "https://github.com/lappalj4/react-native-easy-markdown",
+    "main": "lib/index.js",
+    "repository": "https://github.com/TitanInvest/react-native-easy-markdown",
     "scripts": {
+        "build": "babel index.js styles.js Utils.js -d lib",
+        "prepare": "npm run build",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [
@@ -14,12 +16,19 @@
         "parse",
         "parser"
     ],
-    "author": "Juuso Lappalainen",
+    "contributors": [
+        "Juuso Lappalainen",
+        "Zach Ivester <zach@titanvest.com>"
+    ],
     "license": "MIT",
     "dependencies": {
-        "simple-markdown": "^0.1.1"
+        "simple-markdown": "^0.7.2"
     },
     "peerDependencies": {
         "react-native": "*"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-preset-react-native": "^4.0.1"
     }
 }
